@@ -25,6 +25,8 @@
 		if (!isset($reply['status']) {
 			$reply['status'] = "Error: user does not exist";
 		}
+	} else {
+		$reply['status'] = "no user";
 	}
 	print $reply;
 ?>
