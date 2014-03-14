@@ -6,19 +6,45 @@
 		<script src="css/jquery-2.1.0.js"></script>
 		<script>
 		// JQuery here
+		function showForm(name) {
+			$(name).show();
+		}
+
+		function checkLogin() {
+			$.getJSON("login.php", function(data) {
+				if (data['status'] == 'ok') {
+					return true;
+				} else {
+					return false;
+				}
+			});
+		}
+
+		$(function(){
+			if (checkLogin) {
+				showForm('.login');
+			}
+			$('#newGameButton').on('click',function(){
+				newGame();
+			});
+			
+			$('#guessButton').on('click',function(){
+				guess($('#guessText').val());
+			});
+		});
 		</script>
 	</head>
 
 	<body>
-		<?php/*register form*/?>
+		<!--register form-->
 		<div class="register">
 		<div id="tag">New User Register</div>	
 		  <form id="register_form">
 		    <label for="name">User Name</label>
-		    <input type="text" id="name" name="name" placeholder="User Name" required="" autofocus="" value="<?php echo $username;?>">
+		    <input type="text" id="name" name="name" placeholder="User Name" required="" autofocus="" value="">
 		    <br/>  
 		    <label for="email">E-mail</label>
-		    <input type="email" id="email" name="email" placeholder="E-mail" required="" value="<?php echo $email;?>">
+		    <input type="email" id="email" name="email" placeholder="E-mail" required="" value="">
 		    <br/>
 		    <label for="password">Password</label>
 		    <input type="password" id="password" name="password" placeholder="Password" required="">
@@ -26,6 +52,24 @@
 		    <input type="submit" name="submit" class="button button-input" value="Sign Up">
 		  </form>
 		</div>
+
+		<!--login form-->
+		<div class="login">
+            <div id="tag">Please Sign In</div>	
+            <form id="login_form">
+                <label for="name">Username</label>
+                <input type="text" name="name" placeholder="User Name" required="" autofocus="">
+                <br />
+                <label for="name">Password</label>
+                <input type="password" name="password" placeholder="Password" required="">
+                <br />
+                <p>
+                    <a id="found-psw" href="register.php">Need an account?</a>
+                </p>
+                <br />
+                <input type="submit" class="button button-input" name="submit" value="Login">
+            </form>
+        </div>
 
 	</body>
 </html>
