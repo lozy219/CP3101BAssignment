@@ -11,8 +11,27 @@
 			.draggable { position: fixed; } 
 		</style>
 		<script>
+			var world = {
+						"x1":{"x":8,"y":8}, "x2":{"x":8,"y":8}, "x3":{"x":8,"y":8},
+						"x4":{"x":8,"y":8}, "x5":{"x":8,"y":8}, "o1":{"x":8,"y":8},
+						"o2":{"x":8,"y":8}, "o3":{"x":8,"y":8}, "o4":{"x":8,"y":8},
+						"o5":{"x":246,"y":32},"tttboard":{"x":8,"y":8}
+						}
+
 			function logDrag(event, ui){
-				console.log(JSON.stringify(ui.position) + " " + event.target.id); 
+				// console.log(JSON.stringify(ui.position) + " " + event.target.id);
+				
+				// get the current target from the world state
+				var item =  event.target.id;
+
+				//update current item's position in the world state
+				world[item].x = ui.position.top;
+				world[item].y = ui.position.left;
+
+				// output the world state
+				for (var items in world) {
+					console.log("Picture: "+ item + " x: " + world[items].x + " y: "+ world[items].y);
+				}
 			}
 			$(function() { 
 				$("#world img").draggable(); 
@@ -20,6 +39,7 @@
 				$("#world img").on("dragstop" , function(event, ui) { logDrag(event, ui); });
 				$("#world img").on("drag"     , function(event, ui) { logDrag(event, ui); });
 			});
+			
 		</script>
 	</head>
 	<body>
