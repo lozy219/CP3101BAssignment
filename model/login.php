@@ -1,6 +1,6 @@
 <!--login.php-->
 <?php
-	require_once("model/db.php");
+	require_once("db.php");
 	session_save_path("sess");
 	session_start();
 
@@ -22,11 +22,13 @@
 			}
 		}
 
-		if (!isset($reply['status']) {
+		if (!isset($reply['status'])) {
 			$reply['status'] = "Error: user does not exist";
 		}
 	} else {
 		$reply['status'] = "no user";
 	}
-	print $reply;
+	
+	print json_encode($reply);
+
 ?>

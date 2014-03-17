@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<link rel="stylesheet" type="text/css" href="css/style.css">
-		<script src="css/jquery-2.1.0.js"></script>
+		<script src="js/jquery-2.1.0.js"></script>
 		<script>
 		// JQuery here
 		function showForm(name) {
@@ -11,33 +11,33 @@
 		}
 
 		function checkLogin() {
-			$.getJSON("login.php", function(data) {
+			$.getJSON("model/login.php", function(data) {
+				console.log(data);
 				if (data['status'] == 'ok') {
+					alert("baba");
 					return true;
 				} else {
+
+					alert("maaba");
 					return false;
 				}
 			});
 		}
 
 		$(function(){
-			if (checkLogin) {
-				showForm('.login');
-			}
-			$('#newGameButton').on('click',function(){
-				newGame();
-			});
-			
-			$('#guessButton').on('click',function(){
-				guess($('#guessText').val());
-			});
+			// if (checkLogin()) {
+			// 	showForm('.login');
+			// }
+			alert("haha");
+			checkLogin();
+
 		});
 		</script>
 	</head>
 
 	<body>
 		<!--register form-->
-		<div class="register">
+		<div class="register" style="display:none">
 		<div id="tag">New User Register</div>	
 		  <form id="register_form">
 		    <label for="name">User Name</label>
@@ -54,7 +54,7 @@
 		</div>
 
 		<!--login form-->
-		<div class="login">
+		<div class="login" style="display:none">
             <div id="tag">Please Sign In</div>	
             <form id="login_form">
                 <label for="name">Username</label>
