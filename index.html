@@ -18,18 +18,18 @@
 					return true;
 				} else {
 
-					alert("maaba");
 					return false;
 				}
 			});
 		}
 
 		$(function(){
-			// if (checkLogin()) {
-			// 	showForm('.login');
-			// }
-			alert("haha");
-			checkLogin();
+			if (checkLogin()) {
+				// showForm('.login');
+				alert("You have logged");
+			} else {
+				showForm('.login');
+			}
 
 		});
 		</script>

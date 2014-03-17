@@ -1,4 +1,3 @@
-<!--db.php-->
 <?php
 
 require_once("../config/config.inc");
