@@ -11,13 +11,12 @@
 		}
 
 		function checkLogin() {
-			$.getJSON("model/login.php", function(data) {
+			$.getJSON("model/loginResult.php", function(data) {
 				console.log(data);
-				if (data['status'] == 'ok') {
+				if (data['status'] == 'true') {
 					alert("baba");
 					return true;
 				} else {
-
 					return false;
 				}
 			});
