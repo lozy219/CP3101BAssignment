@@ -5,7 +5,7 @@
 	header('Content-Type: application/json');
 
 	$reply = array();
-	if (isset($reply['valid_user'])) {
+	if (isset($_SESSION['valid_user'])) {
 		$reply['status'] = "true";
 	} else {
 		$reply['status'] = "false";

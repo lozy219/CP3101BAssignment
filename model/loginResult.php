@@ -15,15 +15,18 @@
 
 		while ($row = pg_fetch_array($result)) {
 			if ($row['password'] == md5($pwd)) {
-				$reply['valid_user'] = $name;
-				$reply['status'] = "ok"; //success
+				// $reply['valid_user'] = $name;
+				$_SESSION['valid_user'] = $name;
+				$reply['status'] = "Success"; //success
 			} else {
-				$reply['status'] = "Error: invalid password";
+				$reply['status'] = 'Error';
+				$reply['message'] = 'Invalid password';
 			}
 		}
 
-		if (!isset($reply['status'])) {
-			$reply['status'] = "Error: user does not exist";
+		if (!isset($_SESSION['valid_user']) && !isset($reply['status'])) {
+			$reply['status'] = 'Error';
+			$reply['message'] = 'User does not exist';
 		}
 	} 
 	
