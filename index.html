@@ -11,14 +11,34 @@
 		}
 
 		function checkLogin() {
-			$.getJSON("model/loginResult.php", function(data) {
+			$.getJSON("model/checkLogin.php", function(data) {
 				console.log(data);
 				if (data['status'] == 'true') {
-					alert("baba");
-					return true;
+					// if login, show the interface of after login
+
 				} else {
-					return false;
+					// else, show the login form
+					showForm('.login');
 				}
+			});
+		}
+
+		function authenticate() {
+
+			alert("You are here!");
+			//get input data
+			var input = {};
+			input.name = $("#login_form input[type=text]").val();
+			input.password = $("#login_form input[type=password]").val();
+			console.log(input);
+			//wrap the data to a JSON string
+			var logindata = JSON.stringify(input);
+			console.log(logindata);
+
+			//sending data to the model
+			$.post( "model/loginResult.php", {login: logindata}, function( data ) {
+			  alert( "Data Loaded: " + data );
+			  console.log(data);
 			});
 		}
 
@@ -28,11 +48,26 @@
 
 		//main execution function
 		$(function(){
-			if (checkLogin()) {
-				alert("You have logged");
-			} else {
-				showForm('.login');
-			}
+			// firstly, check if the user has logged in.
+			checkLogin();
+
+
+
+
+
+
+
+
+
+			// event handler
+
+			//login
+			$("#login_submit").click(function(event){
+			  event.preventDefault();
+			  authenticate();
+			});
+
+
 
 		});
 		</script>
@@ -40,7 +75,7 @@
 
 	<body>
 
-
+		
 		<!--login form-->
 		<div class="login" style="display:none">
             <div id="tag">Please Sign In</div>	
@@ -64,13 +99,13 @@
 		<div id="tag">New User Register</div>	
 		  <form id="register_form">
 		    <label for="name">User Name</label>
-		    <input type="text" id="name" name="name" placeholder="User Name" required="" autofocus="" value="">
+		    <input type="text" name="name" placeholder="User Name" required="" autofocus="" value="">
 		    <br/>  
 		    <label for="email">E-mail</label>
-		    <input type="email" id="email" name="email" placeholder="E-mail" required="" value="">
+		    <input type="email" name="email" placeholder="E-mail" required="" value="">
 		    <br/>
 		    <label for="password">Password</label>
-		    <input type="password" id="password" name="password" placeholder="Password" required="">
+		    <input type="password" name="password" placeholder="Password" required="">
 		    <br/>
 		    <input id = "register_submit" type="submit" name="submit" class="button button-input" value="Sign Up">
 		  </form>
