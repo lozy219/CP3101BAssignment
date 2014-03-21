@@ -7,12 +7,12 @@
 }
 
 body {
-
 	color: #34495e;
 	background-color: #edf2ff;
 	font-family: "Lato","Helvetica Neue",Helvetica, sans-serif;
 }
 
+/*Start of header and nav*/
 .topheader {
 	height: 250px;
     /*background-color: #1bbef0;*/
@@ -82,6 +82,9 @@ nav>ul>li>a.active {
 	color:#16A085;
 }
 
+/* End of header and nav*/
+
+
 .container {
 	max-width: 1140px;
 	/*max-width: 1280px;*/
@@ -117,23 +120,22 @@ nav>ul>li>a.active {
 
 
 
-
 #found-psw {
+	margin: 2 auto;
+}
+#found-psw >a {
 	text-align: center;
 	font-size: 15px;
 	color: #34495e;
-
-	margin-right: 10px;
 }
 
-a#found-psw:link {
-	text-decoration: none;
-
-}
-a#found-psw:visited {
+#found-psw > a:link {
 	text-decoration: none;
 }
-a#found-psw:hover {
+#found-psw > a:visited {
+	text-decoration: none;
+}
+#found-psw > a:hover {
 	text-decoration: none;
 	color: #3498DB;
 }
@@ -247,7 +249,16 @@ a#found-psw:hover {
 	float: left;
 }
 
-.full-page .login_form {
+/*Form alert class*/
+.form_alert {
+	margin: 0 auto;
+	padding: 0 auto;
+	color: red;
+}
+/*end of form alert class*/
+
+/*Login Page*/
+.full-page .login {
 	width: 60%;
 	padding: 0 0 10px;
 	margin: 10px auto;
@@ -256,24 +267,24 @@ a#found-psw:hover {
 	box-shadow: 10px 10px 5px #888888;
 }
 
-.login_form #tag {
+.login #tag {
 	margin-bottom: 20px;
 }
 
-.full-page .login_form label {
+.full-page .login label {
 	display: inline-block;
 	width: 20%;
 	text-align: right;
 }
 
-.full-page .login_form input[type="text"], .full-page .login_form input[type="password"]{
+.full-page .login input[type="text"], .full-page .login input[type="password"]{
     border: 2px solid #DADADA;
     border-radius: 6px;
     color: black;
     height: 30px;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     margin-left: 5%;
-    margin-top: 2px;
+    margin-top: 10px;
     outline: 0 none;
     padding: 3px;
     max-width: 70%;
@@ -281,8 +292,10 @@ a#found-psw:hover {
     font-family: "Lato";
     font-size: 15px;
 }
+/*End of login page*/
 
-.full-page .register_form {
+/*Start of register page*/
+.full-page .register {
 	width: 60%;
 	margin: 10px auto;
 	padding: 0 0 10px;
@@ -291,19 +304,19 @@ a#found-psw:hover {
 	box-shadow: 10px 10px 5px #888888;
 }
 
-.register_form  #tag {
+.register  #tag {
 	margin-bottom: 20px;
 }
 
-.full-page .register_form input[type="text"], .full-page .register_form input[type="password"],
-.full-page .register_form input[type="email"] {
+.full-page .register input[type="text"], .full-page .register input[type="password"],
+.full-page .register input[type="email"] {
     border: 2px solid #DADADA;
     border-radius: 6px;
     color: black;
     height: 30px;
-    margin-bottom: 15px;
+    margin-bottom: 8px;
     margin-left: 5%;
-    margin-top: 2px;
+    margin-top: 8px;
     outline: 0 none;
     padding: 3px;
     max-width: 70%;
@@ -312,12 +325,14 @@ a#found-psw:hover {
     font-size: 15px;
 }
 
-.full-page .register_form label {
+.full-page .register label {
 	display: inline-block;
 	width: 20%;
 	text-align: right;
 	
 }
+
+/*End of register form*/
 
 .full-page fieldset {
 	border: none;
@@ -573,6 +588,17 @@ a#found-psw:hover {
 	
 }
 
+
+#task-do-form {
+	height: 30px;
+	display: inline-block;
+	padding:  10px;
+	text-align: right;
+	padding-left: 39%;
+}
+
+
+/*Button start*/
 .button {	
 	border: none;
 	font-weight: normal;
@@ -582,15 +608,6 @@ a#found-psw:hover {
 	line-height:1.5;
 	padding:10px 19px;
 	font-size: 17px;
-}
-
-
-#task-do-form {
-	height: 30px;
-	display: inline-block;
-	padding:  10px;
-	text-align: right;
-	padding-left: 39%;
 }
 
 .button-do {
@@ -613,6 +630,7 @@ a#found-psw:hover {
 
 
 .button-input {
+	margin-top: 10px;
 	text-align:center;
 	width:20%;
 	font-family: "Lato";
@@ -632,6 +650,9 @@ a#found-psw:hover {
 	margin: 2px auto;
 	text-align: center;
 }
+
+
+/*End of button*/
 
 #account-form {
 	text-align: center;
