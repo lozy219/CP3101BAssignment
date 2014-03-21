@@ -2,43 +2,149 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
+		<link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
 		<link rel="stylesheet" type="text/css" href="css/style.css">
+		<title>Do-It</title>
+
 		<script src="js/jquery-2.1.0.js"></script>
 		<script>
-		// JQuery here
-		function showForm(name) {
+
+		// Global variable for in site location
+		var locate;
+
+		//-------------------------------------------------------------------------  
+		// Uilities
+		//-------------------------------------------------------------------------
+
+		//show a particular element
+		function showElement(name) {
 			$(name).show();
 		}
+		//hide a particular element
+		function hideElement(name) {
+			$(name).hide();
+		}
+		//change a navigator item's css to active, and remove previous active class
+		function active_nav(current) {
+			$('#nav-'+locate).removeClass("active");
+			$('#nav-'+current).addClass("active");
+			locate = current;
+		}
 
+		//-------------------------------------------------------------------------  
+		// Controller
+		//-------------------------------------------------------------------------
+
+		//when switching GUI, hide current form, reset all its value
+		function hideCurrent(current) {
+			switch(current) {
+				case 'Home':
+					break;
+				case 'Login':
+					hideElement('.full-page');
+					// when switch, clear all the field in the current form
+					$('#login_form input[type=password]').val('');
+					$('#login_form input[type=text]').val('');
+					$('#login_form input[type=password]').val('');
+					$('#login_form > .form_alert').html('');
+					$('#login_form input').css("border-color","#DADADA");
+					hideElement('.login');
+					break;
+				case 'SignUp':
+					hideElement('.full-page');
+					hideElement('.register');
+					break;
+				case 'Dashboard':
+					hideElement('#task-dashboard');
+					break;
+				case 'Account':
+					break;
+				case 'Task':
+					break;
+				case 'Logout':
+					break;
+				case 'About':
+					break;
+			}
+		}
+
+		//when switching GUI, show the target content
+		function redirect(dest) {
+			hideCurrent(locate);
+			active_nav(dest);
+			//show desired page element
+			switch(dest) {
+				case 'Home':
+					break;
+				case 'Login':
+					showElement('.full-page');
+					showElement('.login');
+					break;
+				case 'SignUp':
+					showElement('.full-page');
+					showElement('.register');
+					break;
+				case 'Dashboard':
+					showElement('.sidebar');
+					showElement('#task-dashboard');
+					break;
+				case 'Account':
+					break;
+				case 'Task':
+					break;
+				case 'Logout':
+					break;
+				case 'About':
+					break;					
+			}
+		}
+
+		//-------------------------------------------------------------------------  
+		// User
+		//-------------------------------------------------------------------------
+
+		//check if the user has logged in(check the session on the server side)
+		//if user has logged in, switch to the DashBoard GUI, else switchto the Home page.
 		function checkLogin() {
 			$.getJSON("model/checkLogin.php", function(data) {
 				console.log(data);
 				if (data['status'] == 'true') {
 					// if login, show the interface of after login
-
+					hideElement('.non-user-item');
+					showElement('.user-item');
+					//direct to the dashboard
+					redirect('Dashboard');
 				} else {
-					// else, show the login form
-					showForm('.login');
+					// else, redirect to the home page
+					redirect('Home');
 				}
 			});
 		}
 
+		//authenticate the input credentials with the server for logging purpose.
 		function authenticate() {
-
-			alert("You are here!");
 			//get input data
 			var input = {};
 			input.name = $("#login_form input[type=text]").val();
 			input.password = $("#login_form input[type=password]").val();
-			console.log(input);
 			//wrap the data to a JSON string
 			var logindata = JSON.stringify(input);
-			console.log(logindata);
 
 			//sending data to the model
 			$.post( "model/loginResult.php", {login: logindata}, function( data ) {
-			  alert( "Data Loaded: " + data );
 			  console.log(data);
+			  // to do done...
+			  if (data.status == 'Success') {
+			  	hideElement('.non-user-item');
+				showElement('.user-item');
+			  	// show success message, and redirect to the home (dashboard)
+			  	redirect('Dashboard');
+			  } else {
+			  	//display error message in the form
+		  		$('#login_form input[type=text]').css("border-color","red");
+		  		$('#login_form input[type=password]').css("border-color","red");
+		  		$('#login_form > .form_alert').html("The username or password you entered is incorrect.");
+			  }
 			});
 		}
 
@@ -48,7 +154,7 @@
 
 		//main execution function
 		$(function(){
-			// firstly, check if the user has logged in.
+			// check if the user has logged in when the document is loaded.
 			checkLogin();
 
 
@@ -56,62 +162,161 @@
 
 
 
+			/*******************/
+			/*	Event handler  */
+			/*******************/
 
-
-
-			// event handler
-
+			//
+			$('#login_form input').focus(function(){
+				$('#login_form > .form_alert').html('');
+				$('#login_form input').css("border-color","#DADADA");
+			});
 			//login
 			$("#login_submit").click(function(event){
-			  event.preventDefault();
-			  authenticate();
+			 	event.preventDefault();
+			 	authenticate();
+			});
+
+			//navigator, which acts as a controller
+			$("nav>ul>li>a").click(function(event){
+				event.preventDefault();
+				//Set destination page
+				var dest = $(this).attr('id').substring(4);
+				if (dest != locate) {
+					// switch ui
+					// redirect to the target page
+					redirect(dest);
+				}
+				
 			});
 
 
 
 		});
 		</script>
+
 	</head>
 
 	<body>
+		<!-- Header -->
+		<div class="topheader">
+			<nav>
+				<ul>
+				    <li class="non-user-item"><a id='nav-Home' href="">Home</a></li>
+				    <li class="non-user-item"><a id='nav-Login' href="">Login</a></li>
+				    <li class="non-user-item"><a id='nav-SignUp' href="">Sign Up</a></li>
+				    <li class="user-item" style="display:none"><a id='nav-Dashboard' href="">Dashboard</a></li>
+				    <li class="user-item" style="display:none"><a id='nav-Account' href="">Account</a></li>
+				    <li class="user-item" style="display:none"><a id='nav-Task' href="">Task</a></li>
+				    <li class="user-item" style="display:none"><a id='nav-Logout' href="">Logout</a></li>
+				    <li><a id='nav-About' href="">About</a></li>	        
+				</ul>
+			</nav>
 
-		
-		<!--login form-->
-		<div class="login" style="display:none">
-            <div id="tag">Please Sign In</div>	
-            <form id="login_form">
-                <label for="name">Username</label>
-                <input type="text" name="name" placeholder="User Name" required="" autofocus="">
-                <br />
-                <label for="name">Password</label>
-                <input type="password" name="password" placeholder="Password" required="">
-                <br />
-                <p>
-                    <a id="found-psw" href="register.php">Need an account?</a>
-                </p>
-                <br />
-                <input id = "login_submit" type="submit" class="button button-input" name="submit" value="Login">
-            </form>
-        </div>
-
-		<!--register form-->
-		<div class="register" style="display:none">
-		<div id="tag">New User Register</div>	
-		  <form id="register_form">
-		    <label for="name">User Name</label>
-		    <input type="text" name="name" placeholder="User Name" required="" autofocus="" value="">
-		    <br/>  
-		    <label for="email">E-mail</label>
-		    <input type="email" name="email" placeholder="E-mail" required="" value="">
-		    <br/>
-		    <label for="password">Password</label>
-		    <input type="password" name="password" placeholder="Password" required="">
-		    <br/>
-		    <input id = "register_submit" type="submit" name="submit" class="button button-input" value="Sign Up">
-		  </form>
+			<div class="topheader logo">
+				<p><img class="logo-pic" src="img/logo.png" alt=""></img>Do-It</p>
+				<small>&nbsp;&nbsp;A simple, effecient and free to-do list.</small>
+			</div>
 		</div>
-
+		<div class="container container-pad">
 		
+		<!-- full page start -->
+		<div class="full-page" style="display:none">
 
+			<!--login form-->
+			<div class="login" style="display:none">
+	            <div id="tag">Please Sign In</div>	
+	            <form id="login_form">
+	            	<div class="form_alert"></div>
+	                <label for="name">Username</label>
+	                <input type="text" name="name" placeholder="User Name" required="" autofocus="">
+	                <br />
+	                <label for="name">Password</label>
+	                <input type="password" name="password" placeholder="Password" required="">
+	                <br />
+	                <p id="found-psw">
+	                    <a href="">Need an account?</a>
+	                </p>
+	                <input id = "login_submit" type="submit" class="button button-input" name="submit" value="Login">
+	            </form>
+	        </div>
+			
+
+
+			<!--register form-->
+			<div class="register" style="display:none">
+				<div id="tag">New User Sign Up</div>	
+		  		<form id="register_form">
+				    <label for="name">User Name</label>
+				    <input type="text" name="name" placeholder="User Name" required="" autofocus="" value="">
+				    <br/>
+				    <div class="form_alert"></div>  
+				    <label for="email">E-mail</label>
+				    <input type="email" name="email" placeholder="E-mail" required="" value="">
+				    <br/>
+				    <div class="form_alert"></div>
+				    <label for="password">Password</label>
+				    <input type="password" name="password" placeholder="Password" required="">
+				    <br/>
+				    <div class="form_alert"></div>
+				    <p id="found-psw">
+	                    <a  href="">Already had an account?</a>
+	                </p>
+				    <input id = "register_submit" type="submit" name="submit" class="button button-input" value="Sign Up">
+			  	</form>
+			</div>
+
+		<!-- end of full page -->
+		</div>
+		
+		<!-- Start of pages with sidebar -->
+		<!-- Sidebar -->
+		<div class="sidebar" style="display:none">
+			<ul id="user-info"><p>Welcome!</p>
+				<br />
+				<li><p id="side-name"></p></li>
+				<br />
+				<li><p id="side-level">Level</p></li>
+				<li><p id="side-exp">Exp:</p></li>
+			</ul>
+			<ul id="user-service"><p>Service</p>
+				<li><a href="">Homepage</a></li>
+				<li><a href="">New Task</a></li>
+				<li><a href="">Leaderboard</a></li>
+				<li><a href="">Manage My Account</a></li>
+				<li><a href="">Manage My Tasks</a></li>
+				<li><a href="">Log out</a></li>
+			</ul>		
+		</div>
+		<!-- CentreView Start-->
+		<div class="content" style="display:none">
+
+			<!-- Start of the dashboard -->
+			<div class="view-task" id="task-dashboard" style="display:none">
+				<div id='tag'>What's ongoing</div>
+					<!-- Display current task(if any) -->
+			</div>
+			<!-- End of the dashboard -->
+
+
+
+			<!-- Start of account page -->
+				<!-- Something here -->
+			<!-- End of the account page -->
+
+			<!-- Start of the task page -->
+				<!-- Something here -->
+			<!-- End of the task page -->
+			
+
+		<!-- End of CentreView -->
+		</div>
+	<!-- End of container -->	
+	</div>
+	<!-- Footer -->
+	<div class="footer">
+		<p style="text-align: center">An application created for the CP3101B</p>
+		<p style="text-align: center">2014-2014</p>
+	</div>
 	</body>
 </html>
