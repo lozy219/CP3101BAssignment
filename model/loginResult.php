@@ -13,9 +13,6 @@
 		// get the login data
 		$name = $data['name'];
 		$pwd = $data['password'];
-
-		$reply['name'] = $name;
-		$reply['password'] = $pwd;
 		// //connect and query the database
 		$dbconn = db_connect();
 		$result = pg_prepare($dbconn, "", 'SELECT * FROM users WHERE name = $1');
