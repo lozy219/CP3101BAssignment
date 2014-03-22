@@ -151,17 +151,21 @@
 		//check whther the new user's information is legitimate
 		function validate() {
 			//get input data;
-			input.name = $("#register_form input[type=name]").val();
-			input.email = $("#register_form input[type=email]").val();
-			input.password = ("#register_form input[type=password]").val();
+			var input = {};
+			input.name = $("#register_form input[name=name]").val();
+			input.email = $("#register_form input[name=email]").val();
+			alert("da");
+			input.password = ("#register_form input[name=password]").val();
+
+			input.password_retype = ("#register_form input[name=password_retype]").val();
+
 			//wrap the date to JSON string
 			var register_data = JSON.stringify(input);
-
 			//sending data to the model
 			$.post("model/registerValidate.php", {register: register_data}, function(data) {
 				if (data.status == 'Success') {
 					// insert the user into database
-					$.post("model/userCreate.php", {create: data}, function(data2) {
+					$.post("model/userCreate.php", {regi: data}, function(data2) {
 						hideElement('.non-user-item');
 						showElement('.user-item');
 					  	// show success message, and redirect to the home (dashboard)
@@ -174,12 +178,10 @@
 				  		$('#register_form > .form_alert').html(data.message);
 				  	} else if (data.message == "Passwords do not match") {
 				  		$('#register_form input[type=password]').css("border-color","red");
-				  		$('#register_form input[type=password_retype]').css("border-color", "red");
 				  		$('#register_form > .form_alert').html(data.message);
 				  	} else if (data.message == "Invalid email address and passwords do not match") {
 				  		$('#register_form input[type=email]').css("border-color","red");
 				  		$('#register_form input[type=password]').css("border-color","red");
-				  		$('#register_form input[type=password_retype]').css("border-color", "red");
 				  		$('#register_form > .form_alert').html(data.message);
 				  	}
 				}
@@ -217,6 +219,7 @@
 			//register
 			$("#register_submit").click(function(event){
 				event.preventDefault();
+				validate();
 			});
 
 			//navigator, which acts as a controller
@@ -302,7 +305,7 @@
 				    <br/>
 				    <div class="form_alert"></div>
 				    <label for="password_retype">Retype your password</label>
-				    <input type="password_retype" name="password_retype" placeholder="Password" required="required">
+				    <input type="password" name="password_retype" placeholder="Password" required="required">
 				    <br/>
 				    <div class="form_alert"></div>
 				    <p id="found-psw">
