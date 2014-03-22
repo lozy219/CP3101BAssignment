@@ -162,7 +162,10 @@
 				if (data.status == 'Success') {
 					// insert the user into database
 					$.post("model/userCreate.php", {create: data}, function(data2) {
-						//after inset
+						hideElement('.non-user-item');
+						showElement('.user-item');
+					  	// show success message, and redirect to the home (dashboard)
+					  	redirect('Dashboard');
 					});				
 				} else {
 					//display error message in the form
