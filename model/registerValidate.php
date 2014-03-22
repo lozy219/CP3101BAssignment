@@ -19,6 +19,9 @@
             	$reply['status'] = "Error";
             	$reply['message'] = "Invalid email address";
             }
+        } else {
+            $reply['status'] = "Error";
+            $reply['message'] = "Invalid email address";
         }
 
         // check whether the password match
