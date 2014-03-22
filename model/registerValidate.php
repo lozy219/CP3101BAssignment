@@ -21,7 +21,7 @@
             }
         } else {
             $reply['status'] = "Error";
-            $reply['message'] = "Invalid email address";
+                $reply['message'] = "Invalid email address";
         }
 
         // check whether the password match

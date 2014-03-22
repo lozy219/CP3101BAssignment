@@ -7,8 +7,7 @@
 
 	$reply = array();
     $reply['receive'] = false;
-
-    if (isset($_REQUEST['login'])) {
+    if (isset($_REQUEST['regi'])) {
         $reply['receive'] = true;
 		$data = json_decode($_REQUEST['regi'], true);
 		// get the user info

@@ -22,7 +22,6 @@
 		// //check the database's return result
 		while ($row = pg_fetch_array($result)) {
 			if ($row['password'] == sha1($pwd)) {
-				// $reply['valid_user'] = $name;
 				$_SESSION['valid_user'] = $name;
 				$reply['status'] = "Success"; //success
 			} else {
