@@ -315,7 +315,7 @@ nav>ul>li>a.active {
 }
 
 .full-page .register input[type="text"], .full-page .register input[type="password"],
-.full-page .register input[type="email"] {
+.full-page .register input[type="email"], .full-page .register input[type="password_retype"] {
     border: 2px solid #DADADA;
     border-radius: 6px;
     color: black;

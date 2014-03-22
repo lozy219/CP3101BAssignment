@@ -1,6 +1,7 @@
 <?php
 	require_once("db.php");
-	session_save_path("sess");
+	require_once("../config/config.inc");
+	session_save_path(SESSION_SAVED);
 	session_start();
 	header('Content-Type: application/json');
 
