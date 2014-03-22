@@ -1,5 +1,5 @@
 <?php
-	session_save_path("sess");
+	session_save_path(SESSION_SAVED);
 	session_start();
 	header('Content-Type: application/json');
 
@@ -12,7 +12,7 @@
 	// 	$reply['status'] = 'Error';
 	// 	$reply['message'] = 'Wrong log out request';
 	// }
-unset($_SESSION['valid_user']);
+	unset($_SESSION['valid_user']);
 	print json_encode($reply);
 
 ?>
