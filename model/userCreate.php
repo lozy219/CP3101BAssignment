@@ -16,17 +16,17 @@
 		$email = $data['email'];
 		//connect and query the database
 		$dbconn = db_connect();		
-		$result = pg_prepare($dbconn, "", 'INSERT INTO users VALUES(nextval(\'user_id_seq\'), $1 , $2 , $3, $4, $5)');
+		$result = pg_prepare($dbconn, "", 'insert into users values(nextval(\'user_id_seq\'), $1 , $2 , $3, $4, $5)');
 		$result = pg_execute($dbconn, "", array($name, sha1($pwd), 1, 0, $email));
 
-		// if ($result) {
-		// 	$reply['status'] = "Success";
-		// } else {
-		// 	$reply['status'] = "Error";
-		// }
+		if ($result) {
+			$reply['status'] = "Success";
+		} else {
+			$reply['status'] = "Error";
+		}
 		
-		// // login
-		// $_SESSION['valid_user'] = $name;
+		// login
+		$_SESSION['valid_user'] = $name;
 	}
 
 	echo json_encode($reply);
