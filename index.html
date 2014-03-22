@@ -131,7 +131,7 @@
 			var logindata = JSON.stringify(input);
 
 			//sending data to the model
-			$.post( "model/loginResult.php", {login: logindata}, function( data ) {
+			$.post("model/loginResult.php", {login: logindata}, function( data ) {
 			  console.log(data);
 			  // to do done...
 			  if (data.status == 'Success') {
@@ -145,6 +145,41 @@
 		  		$('#login_form input[type=password]').css("border-color","red");
 		  		$('#login_form > .form_alert').html("The username or password you entered is incorrect.");
 			  }
+			});
+		}
+
+		//check whther the new user's information is legitimate
+		function validate() {
+			//get input data;
+			input.name = $("#register_form input[type=name]").val();
+			input.email = $("#register_form input[type=email]").val();
+			input.password = ("#register_form input[type=password]").val();
+			//wrap the date to JSON string
+			var register_data = JSON.stringify(input);
+
+			//sending data to the model
+			$.post("model/registerValidate.php", {register: register_data}, function(data) {
+				if (data.status == 'Success') {
+					// insert the user into database
+					$.post("model/userCreate.php", {create: data}, function(data2) {
+						//after inset
+					});				
+				} else {
+					//display error message in the form
+					if (data.message == "Invalid email address") {
+				  		$('#register_form input[type=email]').css("border-color","red");
+				  		$('#register_form > .form_alert').html(data.message);
+				  	} else if (data.message == "Passwords do not match") {
+				  		$('#register_form input[type=password]').css("border-color","red");
+				  		$('#register_form input[type=password_retype]').css("border-color", "red");
+				  		$('#register_form > .form_alert').html(data.message);
+				  	} else if (data.message == "Invalid email address and passwords do not match") {
+				  		$('#register_form input[type=email]').css("border-color","red");
+				  		$('#register_form input[type=password]').css("border-color","red");
+				  		$('#register_form input[type=password_retype]').css("border-color", "red");
+				  		$('#register_form > .form_alert').html(data.message);
+				  	}
+				}
 			});
 		}
 
@@ -175,6 +210,10 @@
 			$("#login_submit").click(function(event){
 			 	event.preventDefault();
 			 	authenticate();
+			});
+			//register
+			$("#register_submit").click(function(event){
+				event.preventDefault();
 			});
 
 			//navigator, which acts as a controller
@@ -248,15 +287,19 @@
 				<div id="tag">New User Sign Up</div>	
 		  		<form id="register_form">
 				    <label for="name">User Name</label>
-				    <input type="text" name="name" placeholder="User Name" required="" autofocus="" value="">
+				    <input type="text" name="name" placeholder="User Name" required="required" autofocus="" value="">
 				    <br/>
 				    <div class="form_alert"></div>  
 				    <label for="email">E-mail</label>
-				    <input type="email" name="email" placeholder="E-mail" required="" value="">
+				    <input type="email" name="email" placeholder="E-mail" required="required" value="">
 				    <br/>
 				    <div class="form_alert"></div>
 				    <label for="password">Password</label>
-				    <input type="password" name="password" placeholder="Password" required="">
+				    <input type="password" name="password" placeholder="Password" required="required">
+				    <br/>
+				    <div class="form_alert"></div>
+				    <label for="password_retype">Retype your password</label>
+				    <input type="password_retype" name="password_retype" placeholder="Password" required="required">
 				    <br/>
 				    <div class="form_alert"></div>
 				    <p id="found-psw">
