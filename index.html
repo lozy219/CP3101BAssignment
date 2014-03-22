@@ -46,7 +46,8 @@
 					$('#login_form input[type=password]').val('');
 					$('#login_form input[type=text]').val('');
 					$('#login_form input[type=password]').val('');
-					$('#login_form > .form_alert').html('');
+					$('#login_form .form_alert .alert-text').html('');
+					$('#login_form > .form_alert').hide();
 					$('#login_form input').css("border-color","#DADADA");
 					hideElement('.login');
 					break;
@@ -143,7 +144,8 @@
 			  	//display error message in the form
 		  		$('#login_form input[type=text]').css("border-color","red");
 		  		$('#login_form input[type=password]').css("border-color","red");
-		  		$('#login_form > .form_alert').html("The username or password you entered is incorrect.");
+		  		$('#login_form > .form_alert').show();
+		  		$('#login_form .form_alert .alert-text').html("The username or password you entered is incorrect.");
 			  }
 			});
 		}
@@ -168,14 +170,18 @@
 
 			//
 			$('#login_form input').focus(function(){
-				$('#login_form > .form_alert').html('');
+				$('#login_form > .form_alert').hide();
+				$('#login_form .form_alert .alert-text').html('');
 				$('#login_form input').css("border-color","#DADADA");
 			});
+
+
 			//login
 			$("#login_submit").click(function(event){
 			 	event.preventDefault();
 			 	authenticate();
 			});
+
 
 			//navigator, which acts as a controller
 			$("nav>ul>li>a").click(function(event){
@@ -187,7 +193,6 @@
 					// redirect to the target page
 					redirect(dest);
 				}
-				
 			});
 
 
@@ -227,7 +232,7 @@
 			<div class="login" style="display:none">
 	            <div id="tag">Please Sign In</div>	
 	            <form id="login_form">
-	            	<div class="form_alert"></div>
+	            	<div class="form_alert" style="display:none"><div class="alert-text"></div></div>
 	                <label for="name">Username</label>
 	                <input type="text" name="name" placeholder="User Name" required="" autofocus="">
 	                <br />
