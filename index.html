@@ -154,11 +154,9 @@
 			var input = {};
 			input.name = $("#register_form input[name=name]").val();
 			input.email = $("#register_form input[name=email]").val();
-			alert("da");
-			input.password = ("#register_form input[name=password]").val();
-
-			input.password_retype = ("#register_form input[name=password_retype]").val();
-
+			input.password = $("#register_form input[name=password]").val();
+			input.password_retype = $("#register_form input[name=password_retype]").val();
+			alert(input.password_retype);
 			//wrap the date to JSON string
 			var register_data = JSON.stringify(input);
 			//sending data to the model
