@@ -161,17 +161,10 @@
 
 			//wrap the date to JSON string
 			var register_data = JSON.stringify(input);
+			var checked = true;
 			//sending data to the model
 			$.post("model/registerValidate.php", {register: register_data}, function(data) {
-				if (data.status == 'Success') {
-					// insert the user into database
-					$.post("model/userCreate.php", {regi: register_data}, function(data2) {
-						hideElement('.non-user-item');
-						showElement('.user-item');
-					  	// show success message, and redirect to the home (dashboard)
-					  	redirect('Dashboard');
-					});				
-				} else {
+				if (data.status != 'Success') {
 					//display error message in the form
 					if (data.message == "Invalid email address") {
 				  		$('#register_form input[type=email]').css("border-color","red");
@@ -184,8 +177,17 @@
 				  		$('#register_form input[type=password]').css("border-color","red");
 				  		$('#register_form > .form_alert').html(data.message);
 				  	}
+				  	checked = false;
 				}
 			});
+			if (checked) {
+				$.post("model/userCreate.php", {regi: register_data}, function(data) {
+					hideElement('.non-user-item');
+					showElement('.user-item');
+				  	// show success message, and redirect to the home (dashboard)
+				  	redirect('Dashboard');
+				});	
+			}			
 		}
 
 
@@ -237,8 +239,6 @@
 					redirect(dest);
 				}
 			});
-sdahkjh
-
 
 		});
 		</script>

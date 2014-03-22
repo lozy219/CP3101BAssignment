@@ -3,7 +3,7 @@
 
     $reply = array();
     $reply['receive'] = false;
-    if (isset($_REQUEST['register'])) {
+    if (isset($_REQUEST['register']
         $reply['receive'] = true;
     	$data = json_decode($_REQUEST['register'], true);
     	// get the register data
@@ -21,7 +21,7 @@
             }
         } else {
             $reply['status'] = "Error";
-                $reply['message'] = "Invalid email address";
+            $reply['message'] = "Invalid email address";
         }
 
         // check whether the password match
