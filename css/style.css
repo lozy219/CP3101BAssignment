@@ -253,7 +253,13 @@ nav>ul>li>a.active {
 .form_alert {
 	margin: 0 auto;
 	padding: 0 auto;
-	color: red;
+	color: #b94a48;
+	background: #f2dede;
+	width:80%;
+	border-radius: 4px;
+}
+.alert-text {
+	padding: 10px;
 }
 /*end of form alert class*/
 
