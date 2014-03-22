@@ -184,6 +184,7 @@
 				$.post("model/userCreate.php", {regi: register_data}, function(data) {
 					hideElement('.non-user-item');
 					showElement('.user-item');
+					console.log(data);
 				  	// show success message, and redirect to the home (dashboard)
 				  	redirect('Dashboard');
 				});	
