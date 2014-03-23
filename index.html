@@ -90,6 +90,7 @@
 					showElement('.sidebar');
 					showElement('#task-dashboard');
 					user_retrieve();
+					task_retrieve();
 					break;
 				case 'Account':
 					break;
@@ -198,7 +199,6 @@
 
 
 		function user_retrieve() {
-			var user;
 			$.getJSON("model/userRetrieve.php", function(data) {
 				if (data['status'] == 'Success') {
 					console.log(data);
@@ -208,8 +208,21 @@
 					alert("OMG");
 				}
 			});
-			console.log(user);
-			return user;
+		}
+		//-------------------------------------------------------------------------  
+		// Tasks
+		//-------------------------------------------------------------------------
+		function task_retrieve() {
+			$.getJSON("model/taskRetrieve.php", function(data) {
+				if (data['status'] == 'Success') {
+					console.log(data);
+					display_task_dashboard(data);
+					showElement('.content');
+				} else {
+					// else, error happens
+					alert("OMG");
+				}
+			});
 		}
 
 		//-------------------------------------------------------------------------  
@@ -222,7 +235,42 @@
 			$("#side-exp").html("Exp: " + user_data.exp);
 		}
 
+		function display_task_dashboard(task_data) {
+			var content = '';
+			var tasks = task_data.tasks;
+			if (tasks.length<=0) {
+				//show empty task message
+			} else {
+				for (var i=0;i<tasks.length;i++) {
+					var task = tasks[i];
+					console.log(task);
+					var current = "<div id=\"task-item\"><div id=\"task-title\"><a href=\"\">";
+				    if (task.remainingslot>0) {
 
+				    	current+=task.title;
+				    	current+="</a></div><form action=\"\" id=\"task-do-form\"><span id=\"task-status\">";
+				    	var progress = Math.floor((1 - task.remainingslot/task.totalslot) * 100);
+				    	if(progress<10) {
+				    		current+="0"+progress;
+				    	} else {
+				    		current+=progress;
+				    	}
+				    	current+="/100%</span><input type=\"hidden\" name=\"taskid\" value=\"";
+				    	current+=task.id;
+				    	current+="\"><input type=\"submit\" class=\"button-do\" name=\"submit\" value=\"Do\"></form><div id=\"progressbar\"><div id=\"progressbar-percentage\" style=\"width:";
+						var bar = (1 - task.remainingslot/task.totalslot) * 100;
+						current+=bar;
+						current+="%\"></div></div><div id=\"remaining-time\">Estimated remaining time: ";
+						current+=task.remainingslot * 30;
+						current+="minutes</div></div>";
+
+						content+=current;
+				    }
+				}
+			}
+			$('#dashboard-task').html(content);
+			alert("fuck!");
+		}
 
 
 
@@ -269,6 +317,21 @@
 					redirect(dest);
 				}
 			});
+
+			//side bar navigator
+			$("#user-service li a").click(function(event){
+				event.preventDefault();
+				//Set destination page
+				var dest = $(this).attr('id').substring(4);
+				if (dest != locate) {
+					// switch ui
+					// redirect to the target page
+					redirect(dest);
+				}
+			});
+
+
+			
 
 		});
 		</script>
@@ -359,12 +422,12 @@
 				<li><p id="side-exp"></p></li>
 			</ul>
 			<ul id="user-service"><p>Service</p>
-				<li><a href="">Homepage</a></li>
-				<li><a href="">New Task</a></li>
-				<li><a href="">Leaderboard</a></li>
-				<li><a href="">Manage My Account</a></li>
-				<li><a href="">Manage My Tasks</a></li>
-				<li><a href="">Log out</a></li>
+				<li><a href="" id="sid-Dashboard">Homepage</a></li>
+				<li><a href="" id="sid-NewTask">New Task</a></li>
+				<li><a href="" id="sid-Lead">Leaderboard</a></li>
+				<li><a href="" id="sid-Account">Manage My Account</a></li>
+				<li><a href="" id="sid-Task">Manage My Tasks</a></li>
+				<li><a href="" id="sid-Logout">Log out</a></li>
 			</ul>		
 		</div>
 		<!-- CentreView Start-->
@@ -373,7 +436,17 @@
 			<!-- Start of the dashboard -->
 			<div class="view-task" id="task-dashboard" style="display:none">
 				<div id='tag'>What's ongoing</div>
-					<!-- Display current task(if any) -->
+
+				<!-- Display current task(if any) -->
+				<div id='warn' style="display:none">You don't have any task to do!
+				<a href="task.php?mode=create">Create one now</a>
+				</div>
+
+				<div id="dashboard-task">
+				</div>
+
+				
+					
 			</div>
 			<!-- End of the dashboard -->
 
