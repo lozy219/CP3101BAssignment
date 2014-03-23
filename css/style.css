@@ -455,7 +455,6 @@ nav>ul>li>a.active {
 
 #task-title {
 	display: inline-block;
-	/* W3C syntax */
 	border-top-left-radius: 0px;
 	border-top-right-radius: 15px;
 	border-bottom-right-radius: 0px;
@@ -464,6 +463,7 @@ nav>ul>li>a.active {
 	text-align: left;
 	padding-left: 20px;
 	width: 40%;
+	margin-top: 7px;
 	background-color: #ECF0F1;
 	margin-bottom: 20px;
 }
@@ -597,10 +597,10 @@ nav>ul>li>a.active {
 
 #task-do-form {
 	height: 30px;
-	display: inline-block;
-	padding:  10px;
+	display: inline;
+	float: right;
 	text-align: right;
-	padding-left: 39%;
+	margin-right: 10px;
 }
 
 
@@ -687,8 +687,7 @@ nav>ul>li>a.active {
 }
 
 #task-status {
-	margin-left: 10px;
-	display: inline-block;
+	display: inline;
 	color: white;
 }
 
