@@ -10,16 +10,17 @@
 
 	if (isset($_REQUEST['login'])) {
 		$reply['receive'] = true;
+		$reply['message'] ='';
 		$data = json_decode($_REQUEST['login'], true);
 		// get the login data
 		$name = $data['name'];
 		$pwd = $data['password'];
-		// //connect and query the database
+		//connect and query the database
 		$dbconn = db_connect();
 		$result = pg_prepare($dbconn, "", 'SELECT * FROM users WHERE name = $1');
 		$result = pg_execute($dbconn, "", array("$name"));
 
-		// //check the database's return result
+		//check the database's return result
 		while ($row = pg_fetch_array($result)) {
 			if ($row['password'] == sha1($pwd)) {
 				$_SESSION['valid_user'] = $name;

@@ -6,28 +6,40 @@
 	header('Content-Type: application/json');
 
 	$reply = array();
-    $reply['receive'] = false;
 
-    if (isset($_REQUEST['user_retrieve'])) {
-        $reply['receive'] = true;
-		$data = json_decode($_REQUEST['regi'], true);
-		// get the user info
-		$name = $data['name'];
-		$pwd = $data['password'];
-		$email = $data['email'];
-		// //connect and query the database
-		$dbconn = db_connect();		
-		$result = pg_prepare($dbconn, "", 'INSERT INTO tasks VALUES(nextval(\'user_id_seq\'), $1 , $2 , $3, $4, $5)');
-		$result = pg_execute($dbconn, "", array($name, sha1($pwd), 1, 0, $email));
+    $reply['receive'] = true;
 
-		if ($result) {
-			$reply['status'] = "Success";
-		} else {
+	if (isset($_SESSION['valid_user'])) {
+		$user = array();
+		$reply['status'] = "Success";
+		$name = $_SESSION['valid_user'];
+
+		//connect and query the database
+		$dbconn = db_connect();
+		$result = pg_prepare($dbconn, "", 'SELECT * FROM users WHERE name = $1');
+		$result = pg_execute($dbconn, "", array("$name"));
+		
+		if (!$result) {
 			$reply['status'] = "Error";
+			goto end;
 		}
-		
-		
-	}
 
+		//check the database's return result
+		while ($row = pg_fetch_array($result)) {
+			$user['id'] = $row['id'];
+			$user['name'] = $name;
+			$user['level'] = $row['level'];
+			$user['exp'] = $row['exp'];
+			$user['email'] = $row['email'];
+		}
+
+		$reply['user'] = $user;
+		
+	} else {
+		$reply['status'] = "Error";
+	}		
+		
+	
+	end:
 	echo json_encode($reply);
 ?>

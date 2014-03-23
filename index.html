@@ -31,6 +31,7 @@
 			locate = current;
 		}
 
+
 		//-------------------------------------------------------------------------  
 		// Controller
 		//-------------------------------------------------------------------------
@@ -88,6 +89,7 @@
 				case 'Dashboard':
 					showElement('.sidebar');
 					showElement('#task-dashboard');
+					user_retrieve();
 					break;
 				case 'Account':
 					break;
@@ -140,6 +142,7 @@
 				showElement('.user-item');
 			  	// show success message, and redirect to the home (dashboard)
 			  	redirect('Dashboard');
+			  	user_retrieve();
 			  } else {
 			  	//display error message in the form
 		  		$('#login_form input[type=text]').css("border-color","red");
@@ -180,6 +183,7 @@
 				  	checked = false;
 				}
 			});
+
 			if (checked) {
 				$.post("model/userCreate.php", {regi: register_data}, function(data) {
 					hideElement('.non-user-item');
@@ -193,6 +197,35 @@
 		}
 
 
+		function user_retrieve() {
+			var user;
+			$.getJSON("model/userRetrieve.php", function(data) {
+				if (data['status'] == 'Success') {
+					console.log(data);
+					startDashboard(data.user);
+				} else {
+					// else, error happens
+					alert("OMG");
+				}
+			});
+			console.log(user);
+			return user;
+		}
+
+		//-------------------------------------------------------------------------  
+		// GUI
+		//-------------------------------------------------------------------------
+
+		function startDashboard(user_data) {
+			$("#side-name").html(user_data.name);
+			$("#side-level").html("Level " + user_data.level);
+			$("#side-exp").html("Exp: " + user_data.exp);
+		}
+
+
+
+
+
 
 
 
@@ -202,15 +235,10 @@
 			checkLogin();
 
 
-
-
-
-
 			/*******************/
 			/*	Event handler  */
 			/*******************/
 
-			//
 			$('#login_form input').focus(function(){
 				$('#login_form > .form_alert').hide();
 				$('#login_form .form_alert .alert-text').html('');
@@ -327,8 +355,8 @@
 				<br />
 				<li><p id="side-name"></p></li>
 				<br />
-				<li><p id="side-level">Level</p></li>
-				<li><p id="side-exp">Exp:</p></li>
+				<li><p id="side-level"></p></li>
+				<li><p id="side-exp"></p></li>
 			</ul>
 			<ul id="user-service"><p>Service</p>
 				<li><a href="">Homepage</a></li>
