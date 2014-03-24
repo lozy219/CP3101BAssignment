@@ -64,6 +64,7 @@
 				case 'Task':
 					break;
 				case 'Logout':
+					//logout then refresh the site
 					break;
 				case 'About':
 					break;
@@ -97,6 +98,7 @@
 				case 'Task':
 					break;
 				case 'Logout':
+					logout();
 					break;
 				case 'About':
 					break;					
@@ -182,6 +184,8 @@
 				  		$('#register_form > .form_alert').html(data.message);
 				  	}
 				  	checked = false;
+				} else {
+					//success
 				}
 			});
 
@@ -206,6 +210,18 @@
 				} else {
 					// else, error happens
 					alert("OMG");
+				}
+			});
+		}
+
+		function logout() {
+			$.getJSON("model/logout.php", {logout:true},function(data) {
+				if (data['status'] == 'Success') {
+					console.log(data);
+					location.reload();
+				} else {
+					// else, error happens
+					alert("Failed");
 				}
 			});
 		}
@@ -269,7 +285,6 @@
 				}
 			}
 			$('#dashboard-task').html(content);
-			alert("fuck!");
 		}
 
 
