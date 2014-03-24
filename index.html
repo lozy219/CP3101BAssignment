@@ -63,6 +63,13 @@
 					hideElement('#view_account');
 					break;
 				case 'NewTask':
+					hideElement('.full-page');
+					// when switch, clear all the field in the current form
+					$('#newtask_form input[type=text]').val('');
+					$('#newtask_form textarea').val('');
+					$('#newtask_form .form_alert .alert-text').html('');
+					$('#newtask_form > .form_alert').hide();
+					$('#newtask_form input').css("border-color","#DADADA");
 					hideElement('.task-create');
 					break;
 				case 'Task':
