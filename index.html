@@ -167,9 +167,10 @@
 
 			//wrap the date to JSON string
 			var register_data = JSON.stringify(input);
-			var checked = true;
+			var checked = false;
 			//sending data to the model
 			$.post("model/registerValidate.php", {register: register_data}, function(data) {
+				alert(data.message);
 				if (data.status != 'Success') {
 					//display error message in the form
 					if (data.message == "Invalid email address") {
@@ -184,8 +185,8 @@
 				  		$('#register_form > .form_alert').html(data.message);
 				  	}
 				  	checked = false;
-				} else {
-					//success
+				} else {	
+					checked = true;
 				}
 			});
 
@@ -196,7 +197,6 @@
 					console.log(data);
 				  	// show success message, and redirect to the home (dashboard)
 				  	// redirect('Dashboard');
-				  	alert(data.receive);
 				});	
 			}			
 		}
