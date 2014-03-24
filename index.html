@@ -62,6 +62,16 @@
 				case 'Account':
 					hideElement('#view_account');
 					break;
+				case 'NewTask':
+					hideElement('.full-page');
+					// when switch, clear all the field in the current form
+					$('#newtask_form input[type=text]').val('');
+					$('#newtask_form textarea').val('');
+					$('#newtask_form .form_alert .alert-text').html('');
+					$('#newtask_form > .form_alert').hide();
+					$('#newtask_form input').css("border-color","#DADADA");
+					hideElement('.task-create');
+					break;
 				case 'Task':
 					break;
 				case 'Logout':
@@ -96,6 +106,10 @@
 					break;
 				case 'Account':
 					user_retrieve('account');
+					break;
+				case 'NewTask':
+					showElement('.full-page');
+					showElement('.task-create');
 					break;
 				case 'Task':
 					break;
@@ -270,6 +284,35 @@
 			});
 		}
 
+		function create_task() {
+			//get input data;
+			$.getJSON("model/userRetrieve.php", function(data) {
+				if (data['status'] == 'Success') {
+					// User info retrieved
+					var input = {};
+					input.title = $("#newtask_title").val();
+					input.description = $("#newtask_description").val();
+					input.duration = $("#newtask_duration").val();
+					input.userid = data['user']['id'];
+					//wrap the date to JSON string
+					var create_data = JSON.stringify(input);
+					//sending data to the model
+											alert(create_data);
+					$.post("model/taskCreate.php", {create_task: create_data}, function(data) {
+						if (data['status'] == 'Success') {
+							console.log(data);
+						} else {
+							// else, error happens
+							alert("Failed");
+						}
+					});
+				} else {
+						// else, error happens
+						alert("OMG");
+				}
+			});
+		}
+
 		//-------------------------------------------------------------------------  
 		// GUI
 		//-------------------------------------------------------------------------
@@ -385,6 +428,11 @@
 			$("#update_submit").click(function(event){
 				event.preventDefault();
 				user_update();
+			});
+
+			$("#task_create_submit").click(function(event){
+				event.preventDefault();
+				create_task();
 			});
 
 
@@ -538,7 +586,7 @@
 				    <form id="account-form" method="post" action="">
 				        <label for="name">
 				            <strong>User Name</strong>
-				        </label>
+				        </user_retrieve>
 				        <input type="text" id="account-name" value="" disabled>
 				        <br/>
 				        <label for="email">
@@ -573,6 +621,25 @@
 			<!-- End of the account page -->
 
 			<!-- Start of the task page -->
+				<!-- Start of newtask form-->
+				<div class="task-create" style="display:none">
+					<div id='tag'>Creating new task</div>
+					<form id='newtask_form'>
+						<div class="form_alert"></div>
+						<label for="name">Title</label>
+						<input id="newtask_title" type="text" name="title" placeholder="Your task title" required="required">
+						<br/>
+						<label for="description">Description</label>
+						<textarea  id ="newtask_description" name="description" style="text-align:left" rows="5" placeholder="Your description for the task" required=""></textarea>
+						<br/>
+						<label for="name" id="label-name" size="10">Slot (30 min as a unit)</label>
+						<input id="newtask_duration" type="text" placeholder="Enter a number between 1 and 20" name="duration"/>
+						<br />
+						<br />
+						<input id="task_create_submit" type="submit" class="button button-input" name="submit" value="Create">
+					</form>
+				</div>
+				<!-- End of the newtask form -->
 				<!-- Something here -->
 			<!-- End of the task page -->
 			
