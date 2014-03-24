@@ -28,6 +28,11 @@
 		
 		// login
 		$_SESSION['valid_user'] = $name;
+
+		$result = pg_prepare($dbconn, "", 'select id from users where name = $1');
+		$result = pg_execute($dbconn, "", array($name));
+
+		$_SESSION['valid_id'] = pg_fetch_array($result)['id'];
 	}
 
 	echo json_encode($reply);
