@@ -5,7 +5,15 @@
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-
+@font-face {
+	font-family: "Lato";
+	src: url('font/Lato-Regular.ttf');
+}
+@font-face {
+font-family: "Lato";
+src: url('font/Lato-Bold.ttf');
+font-weight:bold;
+}
 body {
 	color: #34495e;
 	background-color: #edf2ff;
@@ -247,6 +255,18 @@ nav>ul>li>a.active {
 	padding: 10px;
 	width: 100%;
 	float: left;
+}
+/*Page alert*/
+#page-alert {
+	margin: 0 auto;
+	width: 90%;
+	color: #b94a48;
+	background: #f2dede;
+	border-radius: 4px;
+	line-height: 30px;
+}
+
+#page-alert p {
 }
 
 /*Form alert class*/
