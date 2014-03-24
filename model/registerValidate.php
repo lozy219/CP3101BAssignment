@@ -3,7 +3,8 @@
 
     $reply = array();
     $reply['receive'] = false;
-    if (isset($_REQUEST['register']
+
+    if (isset($_REQUEST['register'])) {
         $reply['receive'] = true;
     	$data = json_decode($_REQUEST['register'], true);
     	// get the register data
@@ -13,6 +14,7 @@
     	$pwd2 = $data['password_retype'];
 
     	// check the email address first
+
     	if (strstr($email, '@') && strstr($email, '.')){
             $reg = '/[_a-z0-9-]+(.[_a-z0-9-]+)*@[a-z0-9-]+(.[a-z0-9-]+)*$/';
             if(!preg_match($reg, $email)){
@@ -28,7 +30,7 @@
         if ($pwd1 != $pwd2) {
         	$reply['status'] = "Error";
         	if (isset($reply['message'])) {
-            	$reply['message'] += "and passwords do not match";
+            	$reply['message'] = $reply['message']." and passwords do not match";
             } else {
     			$reply['message'] = "Passwords do not match";
             }
