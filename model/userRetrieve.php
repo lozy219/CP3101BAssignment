@@ -9,6 +9,26 @@
 
     $reply['receive'] = true;
 
+
+    // to query if a username is avaliable
+    if (isset($_REQUEST['user_query'])) {
+    	//connect and query the database
+    	$name =$_REQUEST['user_query'];
+		$dbconn = db_connect();
+		$result = pg_prepare($dbconn, "", 'SELECT count(*) FROM users WHERE name = $1');
+		$result = pg_execute($dbconn, "", array("$name"));
+		
+		if (!$result) {
+			$reply['status'] = "Error";
+			goto end;
+		}
+
+		if (pg_fetch_array($result)[0]==0) {
+			$reply['status'] = "Success";
+			goto end;
+		}
+    }
+
 	if (isset($_SESSION['valid_user'])) {
 		$user = array();
 		$reply['status'] = "Success";

@@ -49,6 +49,10 @@
 					// the old password is correct
 					update_user($name, $email, $_SESSION['valid_id'], $new_pwd);
 					goto end;
+				} else {
+					$reply['status'] = "Error";
+					$reply['message'] = "Please verify your old password.";
+					goto end;
 				}
 				
 			} else {

@@ -11,7 +11,7 @@
         $reply['receive'] = true;
 		$data = json_decode($_REQUEST['create_task'], true);
 		// get the task info
-		$userid = $data['userid'];
+		$userid = $_SESSION['valid_id'];
 		$title = $data['title'];
 		$description = $data['description'];
 		$duration = $data['duration'];
