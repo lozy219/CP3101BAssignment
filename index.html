@@ -227,6 +227,29 @@
 			});
 		}
 
+		function user_update() {
+			//get input data;
+			var input = {};
+			input.name = $("#account-name").val();
+			input.email = $("#account-email").val();
+			input.oldpassword = $("#o_password").val();
+			input.newpassword = $("#n_password").val();
+
+			//wrap the date to JSON string
+			var update_data = JSON.stringify(input);
+			//sending data to the model
+			$.post("model/userUpdate.php", {update: update_data}, function(data) {
+				if (data['status'] == 'Success') {
+					console.log(data);
+				} else {
+					// else, error happens
+					alert("Failed");
+				}
+			});
+		}
+
+
+
 		function logout() {
 			$.getJSON("model/logout.php", {logout:true},function(data) {
 				if (data['status'] == 'Success') {
@@ -303,7 +326,6 @@
 
 		function display_account(user_data) {
 			showElement('#view_account');
-			$('#account-hidden-name').val(user_data.name);
 			$('#account-name').val(user_data.name);
 			$('#account-email').val(user_data.email);
 			$('#o_password').val();
@@ -325,23 +347,54 @@
 			/*	Event handler  */
 			/*******************/
 
+
+			/* 
+				Login form related
+			*/
 			$('#login_form input').focus(function(){
 				$('#login_form > .form_alert').hide();
 				$('#login_form .form_alert .alert-text').html('');
 				$('#login_form input').css("border-color","#DADADA");
 			});
 
-
-			//login
+			//login button
 			$("#login_submit").click(function(event){
 			 	event.preventDefault();
 			 	authenticate();
 			});
-			//register
+
+			/* 
+				Register form related
+			*/
+			
 			$("#register_submit").click(function(event){
 				event.preventDefault();
 				validate();
 			});
+
+			/* 
+				Account update form related
+			*/
+			$("#n_password").change(function() {
+			      if ($('#o_password').val()=='') {
+			      	// didn't fill in the old password!
+			      	alert("what the hell?");
+			      }
+			});
+
+			$("#r_password").change(function() {
+			      if ($(this).val() != $('#n_password').val()) {
+			      	//show alert
+			      	alert("what the hell?");
+			      }
+			});
+
+			$("#update_submit").click(function(event){
+				event.preventDefault();
+				user_update();
+			});
+
+
 
 
 			//navigator, which acts as a controller
@@ -394,7 +447,7 @@
 
 			<div class="topheader logo">
 				<p><img class="logo-pic" src="img/logo.png" alt=""></img>Do-It</p>
-				<small>&nbsp;&nbsp;A simple, effecient and free to-do list.</small>
+				<small>&nbsp;&nbsp;Another simple, effecient and free to-do list.</small>
 			</div>
 		</div>
 		<div class="container container-pad">
@@ -493,7 +546,6 @@
 				        <label for="name">
 				            <strong>User Name</strong>
 				        </label>
-				        <input type="hidden" id="account-hidden-name" value="">
 				        <input type="text" id="account-name" value="" disabled>
 				        <br/>
 				        <label for="email">
@@ -511,15 +563,20 @@
 				                <strong>New-Password</strong>
 				            </label>
 				            <input type="password" id="n_password" name="n_password" placeholder="New Password">
+				            <br/>
+				            <label for="r_password">
+				                <strong>Re-New Password</strong>
+				            </label>
+				            <input type="password" id="r_password" name="r_password" placeholder="Re-type New Password">
 				            <p>*
 				                <strong>Enter the password only if you want to change your password.</strong>
 				            </p>
 				        </section>
 				        <br/>
 
-				        <input type="submit" class="button button-input" name="submit" value="Update">
+				        <input type="submit" id="update_submit" class="button button-input" name="submit" value="Update">
 				    </form>
-				</div>
+			</div>
 			<!-- End of the account page -->
 
 			<!-- Start of the task page -->
