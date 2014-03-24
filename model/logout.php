@@ -9,6 +9,7 @@
 	if (isset($_REQUEST['logout'])) {
 		//destroy session, log out
 		unset($_SESSION['valid_user']);
+		unset($_SESSION['valid_id']);
 		$reply['status'] = 'Success';
 	} else {
 		$reply['status'] = 'Error';
