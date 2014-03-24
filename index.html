@@ -284,6 +284,35 @@
 			});
 		}
 
+		function create_task() {
+			//get input data;
+			$.getJSON("model/userRetrieve.php", function(data) {
+				if (data['status'] == 'Success') {
+					// User info retrieved
+					var input = {};
+					input.title = $("#newtask_title").val();
+					input.description = $("#newtask_description").val();
+					input.duration = $("#newtask_duration").val();
+					input.userid = data['user']['id'];
+					//wrap the date to JSON string
+					var create_data = JSON.stringify(input);
+					//sending data to the model
+											alert(create_data);
+					$.post("model/taskCreate.php", {create_task: create_data}, function(data) {
+						if (data['status'] == 'Success') {
+							console.log(data);
+						} else {
+							// else, error happens
+							alert("Failed");
+						}
+					});
+				} else {
+						// else, error happens
+						alert("OMG");
+				}
+			});
+		}
+
 		//-------------------------------------------------------------------------  
 		// GUI
 		//-------------------------------------------------------------------------
@@ -399,6 +428,11 @@
 			$("#update_submit").click(function(event){
 				event.preventDefault();
 				user_update();
+			});
+
+			$("#task_create_submit").click(function(event){
+				event.preventDefault();
+				create_task();
 			});
 
 
@@ -552,7 +586,7 @@
 				    <form id="account-form" method="post" action="">
 				        <label for="name">
 				            <strong>User Name</strong>
-				        </label>
+				        </user_retrieve>
 				        <input type="text" id="account-name" value="" disabled>
 				        <br/>
 				        <label for="email">
@@ -593,16 +627,16 @@
 					<form id='newtask_form'>
 						<div class="form_alert"></div>
 						<label for="name">Title</label>
-						<input type="text" name="title" placeholder="Your task title" required="required">
+						<input id="newtask_title" type="text" name="title" placeholder="Your task title" required="required">
 						<br/>
 						<label for="description">Description</label>
-						<textarea  id ="description" name="description" style="text-align:left" rows="5" placeholder="Your description for the task" required=""></textarea>
+						<textarea  id ="newtask_description" name="description" style="text-align:left" rows="5" placeholder="Your description for the task" required=""></textarea>
 						<br/>
 						<label for="name" id="label-name" size="10">Slot (30 min as a unit)</label>
-						<input id="input-number" type="text" placeholder="Enter a number between 1 and 20" name="duration"/>
+						<input id="newtask_duration" type="text" placeholder="Enter a number between 1 and 20" name="duration"/>
 						<br />
 						<br />
-						<input type="submit" class="button button-input" name="submit" value="Create">
+						<input id="task_create_submit" type="submit" class="button button-input" name="submit" value="Create">
 					</form>
 				</div>
 				<!-- End of the newtask form -->
