@@ -60,6 +60,7 @@
 					hideElement('#task-dashboard');
 					break;
 				case 'Account':
+					hideElement('#view_account');
 					break;
 				case 'Task':
 					break;
@@ -90,10 +91,11 @@
 				case 'Dashboard':
 					showElement('.sidebar');
 					showElement('#task-dashboard');
-					user_retrieve();
+					user_retrieve('dashboard');
 					task_retrieve();
 					break;
 				case 'Account':
+					user_retrieve('account');
 					break;
 				case 'Task':
 					break;
@@ -145,7 +147,7 @@
 				showElement('.user-item');
 			  	// show success message, and redirect to the home (dashboard)
 			  	redirect('Dashboard');
-			  	user_retrieve();
+			  	user_retrieve('dashboard');
 			  } else {
 			  	//display error message in the form
 		  		$('#login_form input[type=text]').css("border-color","red");
@@ -202,14 +204,22 @@
 		}
 
 
-		function user_retrieve() {
+		function user_retrieve(location) {
 			$.getJSON("model/userRetrieve.php", function(data) {
 				if (data['status'] == 'Success') {
-					console.log(data);
-					startDashboard(data.user);
+					switch(location) {
+						case 'dashboard':
+							console.log(data);
+							startDashboard(data.user);
+							break;
+						case 'account':
+							console.log(data);
+							display_account(data.user);
+							break;
+					}
 				} else {
-					// else, error happens
-					alert("OMG");
+						// else, error happens
+						alert("OMG");
 				}
 			});
 		}
@@ -256,6 +266,7 @@
 			var tasks = task_data.tasks;
 			if (tasks.length<=0) {
 				//show empty task message
+				showElement('#warn');
 			} else {
 				for (var i=0;i<tasks.length;i++) {
 					var task = tasks[i];
@@ -285,6 +296,15 @@
 				}
 			}
 			$('#dashboard-task').html(content);
+		}
+
+		function display_account(user_data) {
+			showElement('#view_account');
+			$('#account-hidden-name').val(user_data.name);
+			$('#account-name').val(user_data.name);
+			$('#account-email').val(user_data.email);
+			$('#o_password').val();
+			$('#n_password').val();
 		}
 
 
@@ -456,19 +476,47 @@
 				<div id='warn' style="display:none">You don't have any task to do!
 				<a href="task.php?mode=create">Create one now</a>
 				</div>
-
+				<!-- Display current task(if any) -->
 				<div id="dashboard-task">
-				</div>
-
-				
-					
+				</div>	
 			</div>
 			<!-- End of the dashboard -->
 
 
-
 			<!-- Start of account page -->
-				<!-- Something here -->
+			<div id="view_account" style="display:none">
+					<div id="tag">Update Your Information</div>
+				    <form id="account-form" method="post" action="">
+				        <label for="name">
+				            <strong>User Name</strong>
+				        </label>
+				        <input type="hidden" id="account-hidden-name" value="">
+				        <input type="text" id="account-name" value="" disabled>
+				        <br/>
+				        <label for="email">
+				            <strong>E-mail</strong>
+				        </label>
+				        <input type="email" id="account-email" name="email" placeholder="E-mail" required="" value="">
+				        <br/>
+				        <section id="change_password">
+				            <label for="o_password">
+				                <strong>Old-Password</strong>
+				            </label>
+				            <input type="password" id="o_password" name="o_password" placeholder="Old Password">
+				            <br/>
+				            <label for="n_password">
+				                <strong>New-Password</strong>
+				            </label>
+				            <input type="password" id="n_password" name="n_password" placeholder="New Password">
+				            <p>*
+				                <strong>Enter the password only if you want to change your password.</strong>
+				            </p>
+				        </section>
+				        <br/>
+
+				        <input type="submit" class="button button-input" name="submit" value="Update">
+				    </form>
+				</div>
 			<!-- End of the account page -->
 
 			<!-- Start of the task page -->
