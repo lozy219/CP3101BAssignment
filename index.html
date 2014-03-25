@@ -326,6 +326,28 @@
 			
 		}
 
+		function do_task() {
+			//get input data;
+			var input = {};
+			input.task_id = $("#task_id").val();
+			//wrap the date to JSON string
+			var dodata = JSON.stringify(input);
+			//sending data to the model
+			
+			$.post("model/taskDo.php", {task: dodata}, function(data) {
+				if (data['status'] == 'Success') {
+					console.log(data);
+					showPageAlert('Do successfully!','success');
+					//redirect('Dashboard');
+				} else {
+					// else, error happens
+					showPageAlert('Do failed! Please try again.','fail');
+				}
+			});
+			
+		}
+
+
 		//-------------------------------------------------------------------------  
 		// GUI
 		//-------------------------------------------------------------------------
@@ -350,16 +372,16 @@
 				    if (task.remainingslot>0) {
 
 				    	current+=task.title;
-				    	current+="</a></div><form action=\"\" id=\"task-do-form\"><span id=\"task-status\">";
+				    	current+="</a></div><form id=\"task-do-form\"><span id=\"task-status\">";
 				    	var progress = Math.floor((1 - task.remainingslot/task.totalslot) * 100);
 				    	if(progress<10) {
 				    		current+="0"+progress;
 				    	} else {
 				    		current+=progress;
 				    	}
-				    	current+="/100%</span><input type=\"hidden\" name=\"taskid\" value=\"";
+				    	current+="/100%</span><input type=\"hidden\" id=\"task_id\" name=\"taskid\" value=\"";
 				    	current+=task.id;
-				    	current+="\"><input type=\"submit\" class=\"button-do\" name=\"submit\" value=\"Do\"></form><div id=\"progressbar\"><div id=\"progressbar-percentage\" style=\"width:";
+				    	current+="\"><input type=\"submit\" id=\"do-task\"class=\"button-do\" name=\"submit\" value=\"Do\"></form><div id=\"progressbar\"><div id=\"progressbar-percentage\" style=\"width:";
 						var bar = (1 - task.remainingslot/task.totalslot) * 100;
 						current+=bar;
 						current+="%\"></div></div><div id=\"remaining-time\">Estimated remaining time: ";
@@ -602,7 +624,14 @@
 			*/
 			$("#task_create_submit").click(function(event){
 				event.preventDefault();
+								alert("fdsd");
+
 				create_task();
+			});
+
+			$("#do-task").click(function(event){
+				event.preventDefault();
+				do_task();
 			});
 
 
