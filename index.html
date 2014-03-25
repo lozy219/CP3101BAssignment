@@ -245,11 +245,11 @@
 					}
 				} else {
 						// else, error happens
-						alert("OMG");
+						showPageAlert('Unknown error! Please try again...','fail');
 				}
 			});
 		}
-		// 					showPageAlert('Unknown error! Please try again...','fail');
+		// 					
 		function user_update() {
 			//get input data;
 			var input = {};
@@ -277,15 +277,20 @@
 
 
 		function logout() {
-			$.getJSON("model/logout.php", {logout:true},function(data) {
+			var jq = $.getJSON("model/logout.php", {logout:true},function(data) {
 				if (data['status'] == 'Success') {
-					console.log(data);
-					location.reload();
+					console.log(data);		
+					location.reload();			
 				} else {
 					// else, error happens
-					alert("Failed");
+					showPageAlert('Unknown error! Please try again...','fail');
 				}
 			});
+			jq.complete(function() {
+				// showPageAlert('You have successfully logged out.','success');
+				alert("You have logged out.");
+			});
+
 		}
 		//-------------------------------------------------------------------------  
 		// Tasks
@@ -298,7 +303,7 @@
 					showElement('.content');
 				} else {
 					// else, error happens
-					alert("OMG");
+					showPageAlert('Unknown error! Please try again...','fail');
 				}
 			});
 		}
@@ -449,7 +454,6 @@
 					$("#reg-email").css("border-color","#2ecc71");
 				} else {
 					$('#reg-email').css("border-color","red");
-			      	// $('#register_form .form_alert .alert-text').append('<br/>Please check your email format.');
 			      	v_email = true;
 				  	showElement('#register_form .form_alert');
 				  	checked=false;
@@ -458,7 +462,6 @@
 			    //regular expression check
 		        if (!verify_password('#reg-psw')) {
 		         	$('#reg-psw').css("border-color","red");
-			  		// $('#register_form .form_alert .alert-text').append('<br/>Please check your password format!');
 			  		v_password = true;
 			  		showElement('#register_form .form_alert');
 			  		checked=false;
@@ -468,14 +471,12 @@
 
 				if (!verify_password('#reg-rpsw')) {
 		         	$('#reg-rpsw').css("border-color","red");
-		         	// $('#register_form .form_alert .alert-text').append('<br/>Please check your password format!');
 		         	v_password = true;
 			  		showElement('#register_form .form_alert');
 			  		checked=false;
 		        } else {
 					if ($('#reg-rpsw').val() != $('#reg-psw').val()) {
 						$('#reg-rpsw').css("border-color", "red");
-						// $('#register_form .form_alert .alert-text').append('<br/>Please enter the same new password.');
 						v_repassword = true;
 						showElement('#register_form .form_alert');
 						checked=false;
