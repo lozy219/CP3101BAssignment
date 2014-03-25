@@ -45,6 +45,7 @@
 		// adding exp
 		$total = $task['totalslot'];
 		$new_exp = $user['exp'] + 25 / $total;
+		$reply['message'] = $new_exp;
 		$new_level = ceil($new_exp / 20);
 		$flag = 0;
 		if ($new_level > $user['level']) {

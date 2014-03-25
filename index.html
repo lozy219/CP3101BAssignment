@@ -326,7 +326,8 @@
 			
 		}
 
-		function do_task() {
+		function do_task(event) {
+			event.preventDefault();
 			//get input data;
 			var input = {};
 			input.task_id = $("#task_id").val();
@@ -334,6 +335,7 @@
 			var dodata = JSON.stringify(input);
 			//sending data to the model
 			
+			alert(dodata);
 			$.post("model/taskDo.php", {task: dodata}, function(data) {
 				if (data['status'] == 'Success') {
 					console.log(data);
@@ -381,7 +383,7 @@
 				    	}
 				    	current+="/100%</span><input type=\"hidden\" id=\"task_id\" name=\"taskid\" value=\"";
 				    	current+=task.id;
-				    	current+="\"><input type=\"submit\" id=\"do-task\"class=\"button-do\" name=\"submit\" value=\"Do\"></form><div id=\"progressbar\"><div id=\"progressbar-percentage\" style=\"width:";
+				    	current+="\"><input type=\"submit\" onclick=\"do_task(event);\" class=\"button-do\" name=\"submit\" value=\"Do\"></form><div id=\"progressbar\"><div id=\"progressbar-percentage\" style=\"width:";
 						var bar = (1 - task.remainingslot/task.totalslot) * 100;
 						current+=bar;
 						current+="%\"></div></div><div id=\"remaining-time\">Estimated remaining time: ";
@@ -624,15 +626,9 @@
 			*/
 			$("#task_create_submit").click(function(event){
 				event.preventDefault();
-								alert("fdsd");
-
 				create_task();
 			});
 
-			$("#do-task").click(function(event){
-				event.preventDefault();
-				do_task();
-			});
 
 
 
