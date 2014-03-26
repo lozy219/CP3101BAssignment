@@ -435,7 +435,11 @@
 			for (var i=0;i<tasks.length;i++) {
 				var task = tasks[i];
 				console.log(task);
-				var current = "<div id=\"task-item\" name=\""+task.id+"\"><div id=\"task-title\"><a href=\"\">";
+				if (task.remainingslot == 0) {
+					var current = "<div id=\"task-item-done\" name=\""+task.id+"\"><div id=\"task-title\"><a href=\"\">";
+				} else {
+					var current = "<div id=\"task-item\" name=\""+task.id+"\"><div id=\"task-title\"><a href=\"\">";
+				}
 		    	count++;
 		    	current+=task.title;
 		    	current+="</a></div><div id=\"task-do-form\"><span id=\"task-status\">";
@@ -445,9 +449,17 @@
 		    	} else {
 		    		current+=progress;
 		    	}
-		    	current+="/100%</span><button id=\"Do-task\" class=\"button-do\" onclick=\"do_task(";
+		    	if (task.remainingslot == 0) {
+		    		current+="/100%</span><button disabled=\"disabled\" id=\"Do-task\" class=\"button-done\" onclick=\"do_task(";
+		    	} else {
+		    		current+="/100%</span><button id=\"Do-task\" class=\"button-do\" onclick=\"do_task(";
+		    	}
 		    	current+=task.id;
-		    	current+=")\">DO</button></div><div id=\"progressbar\"><div id=\"progressbar-percentage\" style=\"width:";
+		    	if (task.remainingslot == 0) {
+		    		current+=")\">DO</button></div><div id=\"progressbar\"><div id=\"progressbar-percentage-done\" style=\"width:";
+		    	} else {
+		    		current+=")\">DO</button></div><div id=\"progressbar\"><div id=\"progressbar-percentage\" style=\"width:";
+				}
 				var bar = (1 - task.remainingslot/task.totalslot) * 100;
 				current+=bar;
 				current+="%\"></div></div><div id=\"remaining-time\">Estimated remaining time: <div id=\"remain-time\">";

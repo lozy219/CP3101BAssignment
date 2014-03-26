@@ -530,6 +530,15 @@ nav>ul>li>a.active {
 	background-color: #5e8bb8;
 }
 
+#task-item-done {
+	margin: 10px auto;
+	width: 80%;
+	padding-top: 6px;
+	padding-bottom: 5px;
+	border-radius: 18px;
+	background-color: #6b6b6b;	
+}
+
 #task-title {
 	display: inline-block;
 	border-top-left-radius: 0px;
@@ -724,6 +733,19 @@ nav>ul>li>a.active {
 	background:#bec4c4;
 }
 
+.button-done {
+	display: inline;
+	width:40px;
+	height:40px;
+	border-radius:20px;
+	font-size:20px;
+	color:#fff;
+	text-align:center;
+	text-decoration:none;
+	background:#37393a;
+	border: none;
+}
+
 
 .button-input {
 	margin-top: 10px;
@@ -780,6 +802,13 @@ nav>ul>li>a.active {
 #progressbar-percentage {
    padding-top:5px;
    background-color: #34495e;
+   height: 30px;
+   border-radius: 18px;
+}
+
+#progressbar-percentage-done {
+   padding-top:5px;
+   background-color: #37383b;
    height: 30px;
    border-radius: 18px;
 }
