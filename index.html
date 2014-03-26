@@ -64,7 +64,6 @@
 	        return reName.test(username);
 		}
 
-
 		//-------------------------------------------------------------------------  
 		// Controller
 		//-------------------------------------------------------------------------
@@ -246,11 +245,11 @@
 					}
 				} else {
 						// else, error happens
-						showPageAlert('Unknown error! Please try again...','fail');
+						alert("OMG");
 				}
 			});
 		}
-		// 					
+		// 					showPageAlert('Unknown error! Please try again...','fail');
 		function user_update() {
 			//get input data;
 			var input = {};
@@ -278,20 +277,15 @@
 
 
 		function logout() {
-			var jq = $.getJSON("model/logout.php", {logout:true},function(data) {
+			$.getJSON("model/logout.php", {logout:true},function(data) {
 				if (data['status'] == 'Success') {
-					console.log(data);		
-					location.reload();			
+					console.log(data);
+					location.reload();
 				} else {
 					// else, error happens
-					showPageAlert('Unknown error! Please try again...','fail');
+					alert("Failed");
 				}
 			});
-			jq.complete(function() {
-				// showPageAlert('You have successfully logged out.','success');
-				alert("You have logged out.");
-			});
-
 		}
 		//-------------------------------------------------------------------------  
 		// Tasks
@@ -304,7 +298,7 @@
 					showElement('.content');
 				} else {
 					// else, error happens
-					showPageAlert('Unknown error! Please try again...','fail');
+					alert("OMG");
 				}
 			});
 		}
@@ -331,45 +325,19 @@
 			});
 			
 		}
-		function updateSidebar(level, exp) {
-			$('#side-level').text("Level "+level);
-			$('#side-exp').text("Exp: "+exp);
-		}
-		function updateTask(taskid, current, time) {
-			var status = $('#task-item[name='+taskid+'] > #task-do-form > #task-status');
-			var progressbar = $('#task-item[name='+taskid+'] > #progressbar > #progressbar-percentage');
-			var remaintime = $('#task-item[name='+taskid+'] > #remaining-time > #remain-time');
 
-			if (time<=0) {
-				hideElement('#task-item[name=\"'+taskid+'\""]');
-			}
-
-			var progress = Math.floor(current);
-	    	if(progress<10) {
-	    		status.html("0"+progress+"/100% ");
-	    	} else {
-	    		status.html(progress+"/100% ");
-	    	}
-
-	    	progressbar.css('width',current+'%');
-	    	remaintime.html(time);
-
-		}
-		
-		function do_task(taskid) {
+		function do_task(event) {
+			event.preventDefault();
+			//get input data;
+			var input = {};
+			input.task_id = $("#task_id").val();
+			//wrap the date to JSON string
+			var dodata = JSON.stringify(input);
 			//sending data to the model
-			var id = JSON.stringify(taskid);
-			//sending do task command to the taskUpdate.php, and then change the progress bar and experience.
-			$.getJSON("model/taskUpdate.php",  {dotask: id}, function(data) {
+			
+			$.post("model/taskDo.php", {task: dodata}, function(data) {
 				if (data['status'] == 'Success') {
 					console.log(data);
-					// update the level, exp and progress bar in the sidebar.
-					updateSidebar(data.user.level, data.user.exp);
-					if (data.task.remainingslot<=0) {
-						hideElement('#task-item[name='+data.task.id+']');
-					} else {
-						updateTask(data.task.id.toString(), (1 - data.task.remainingslot / data.task.totalslot) * 100, data.task.remainingslot * 30);
-					}
 					showPageAlert('Do successfully!','success');
 					//redirect('Dashboard');
 				} else {
@@ -390,7 +358,7 @@
 			$("#side-level").html("Level " + user_data.level);
 			$("#side-exp").html("Exp: " + user_data.exp);
 		}
-		
+
 		function display_task_dashboard(task_data) {
 			var content = '';
 			var tasks = task_data.tasks;
@@ -401,25 +369,25 @@
 				for (var i=0;i<tasks.length;i++) {
 					var task = tasks[i];
 					console.log(task);
-					var current = "<div id=\"task-item\" name=\""+task.id+"\"><div id=\"task-title\"><a href=\"\">";
+					var current = "<div id=\"task-item\"><div id=\"task-title\"><a href=\"\">";
 				    if (task.remainingslot>0) {
 
 				    	current+=task.title;
-				    	current+="</a></div><div id=\"task-do-form\"><span id=\"task-status\">";
+				    	current+="</a></div><form id=\"task-do-form\"><span id=\"task-status\">";
 				    	var progress = Math.floor((1 - task.remainingslot/task.totalslot) * 100);
 				    	if(progress<10) {
 				    		current+="0"+progress;
 				    	} else {
 				    		current+=progress;
 				    	}
-				    	current+="/100%</span><button id=\"Do-task\" class=\"button-do\" onclick=\"do_task(";
+				    	current+="/100%</span><input type=\"hidden\" id=\"task_id\" name=\"taskid\" value=\"";
 				    	current+=task.id;
-				    	current+=")\">DO</button></div><div id=\"progressbar\"><div id=\"progressbar-percentage\" style=\"width:";
+				    	current+="\"><input type=\"submit\" onclick=\"do_task(event);\" class=\"button-do\" name=\"submit\" value=\"Do\"></form><div id=\"progressbar\"><div id=\"progressbar-percentage\" style=\"width:";
 						var bar = (1 - task.remainingslot/task.totalslot) * 100;
 						current+=bar;
-						current+="%\"></div></div><div id=\"remaining-time\">Estimated remaining time: <div id=\"remain-time\">";
+						current+="%\"></div></div><div id=\"remaining-time\">Estimated remaining time: ";
 						current+=task.remainingslot * 30;
-						current+="</div> minutes</div></div>";
+						current+="minutes</div></div>";
 
 						content+=current;
 				    }
@@ -504,6 +472,7 @@
 					$("#reg-email").css("border-color","#2ecc71");
 				} else {
 					$('#reg-email').css("border-color","red");
+			      	// $('#register_form .form_alert .alert-text').append('<br/>Please check your email format.');
 			      	v_email = true;
 				  	showElement('#register_form .form_alert');
 				  	checked=false;
@@ -512,6 +481,7 @@
 			    //regular expression check
 		        if (!verify_password('#reg-psw')) {
 		         	$('#reg-psw').css("border-color","red");
+			  		// $('#register_form .form_alert .alert-text').append('<br/>Please check your password format!');
 			  		v_password = true;
 			  		showElement('#register_form .form_alert');
 			  		checked=false;
@@ -521,12 +491,14 @@
 
 				if (!verify_password('#reg-rpsw')) {
 		         	$('#reg-rpsw').css("border-color","red");
+		         	// $('#register_form .form_alert .alert-text').append('<br/>Please check your password format!');
 		         	v_password = true;
 			  		showElement('#register_form .form_alert');
 			  		checked=false;
 		        } else {
 					if ($('#reg-rpsw').val() != $('#reg-psw').val()) {
 						$('#reg-rpsw').css("border-color", "red");
+						// $('#register_form .form_alert .alert-text').append('<br/>Please enter the same new password.');
 						v_repassword = true;
 						showElement('#register_form .form_alert');
 						checked=false;
@@ -657,11 +629,7 @@
 			});
 
 
-			/*
-				Do task
-			*/
 
-			
 
 
 			//navigator, which acts as a controller
@@ -767,6 +735,7 @@
 		<!-- end of full page -->
 		</div>
 		
+
 		<!-- Start of pages with sidebar -->
 		<!-- Sidebar -->
 		<div class="sidebar" style="display:none">
