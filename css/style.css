@@ -751,7 +751,9 @@ nav>ul>li>a.active {
 	text-align: center;
 	color: white;
 }
-
+#remain-time {
+	display: inline;
+}
 #progressbar {
   margin: 0 auto;
   background-color: white;

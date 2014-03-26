@@ -25,14 +25,16 @@
 		} else {
 			$reply['status'] = "Error";
 		}
-		
-		// login
-		$_SESSION['valid_user'] = $name;
 
-		$result = pg_prepare($dbconn, "", 'select id from users where name = $1');
+		$result = pg_prepare($dbconn, "", 'select * from users where name = $1');
 		$result = pg_execute($dbconn, "", array($name));
 
-		$_SESSION['valid_id'] = pg_fetch_array($result)['id'];
+		//store user state in the session
+		$user = pg_fetch_array($result);
+		$_SESSION['valid_user'] = $user['name'];
+		$_SESSION['valid_id'] = $user['id'];
+		$_SESSION['valid_level'] = $user['level'];
+		$_SESSION['valid_exp'] = $user['exp'];
 	}
 
 	echo json_encode($reply);

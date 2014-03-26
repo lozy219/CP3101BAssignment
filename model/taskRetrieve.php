@@ -16,7 +16,7 @@
 
 		//connect and query the database
 		$dbconn = db_connect();
-		$result = pg_prepare($dbconn, "", 'SELECT * FROM tasks WHERE userid = $1');
+		$result = pg_prepare($dbconn, "", 'SELECT * FROM tasks WHERE userid = $1 ORDER BY id DESC');
 		$result = pg_execute($dbconn, "", array($user_id));
 
 		
