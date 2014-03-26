@@ -115,8 +115,6 @@
 				case 'Logout':
 					//logout then refresh the site
 					break;
-				case 'About':
-					break;
 			}
 		}
 
@@ -153,9 +151,7 @@
 					break;
 				case 'Logout':
 					logout();
-					break;
-				case 'About':
-					break;					
+					break;				
 			}
 		}
 
@@ -704,7 +700,11 @@
 				}
 			});
 
-			
+			$('#found-psw>a').click(function(event) {
+				event.preventDefault();
+				var data = $(this).data();
+				redirect(data.mode);
+			});
 		});
 		</script>
 
@@ -722,7 +722,6 @@
 				    <li class="user-item" style="display:none"><a id='nav-Account' href="">Account</a></li>
 				    <li class="user-item" style="display:none"><a id='nav-Task' href="">Task</a></li>
 				    <li class="user-item" style="display:none"><a id='nav-Logout' href="">Logout</a></li>
-				    <li><a id='nav-About' href="">About</a></li>	        
 				</ul>
 			</nav>
 					
@@ -748,13 +747,12 @@
 	                <input type="password" name="password" placeholder="Password" required="">
 	                <br />
 	                <p id="found-psw">
-	                    <a href="">Need an account?</a>
+	                    <a href="" data-mode='SignUp'>Need an account?</a>
 	                </p>
 	                <input id = "login_submit" type="submit" class="button button-input" name="submit" value="Login">
 	            </form>
 	        </div>
 			
-
 
 			<!--register form-->
 			<div class="register" style="display:none">
@@ -774,7 +772,7 @@
 				    <input id="reg-rpsw" type="password" name="password_retype" placeholder="Password" required="required">
 				    <br/>
 				    <p id="found-psw">
-	                    <a  href="">Already had an account?</a>
+	                    <a  href="" data-mode='Login'>Already had an account?</a>
 	                </p>
 				    <input id = "register_submit" type="submit" name="submit" class="button button-input" value="Sign Up">
 			  	</form>
