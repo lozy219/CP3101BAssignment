@@ -681,6 +681,8 @@ nav>ul>li>a.active {
     border: 0; 
     background: transparent;
 }
+
+
 #tag:after {
 	 clear: both;
 }
@@ -801,11 +803,15 @@ nav>ul>li>a.active {
 }
 #warn {
 	text-align: center;
+	margin: 10px;
 }
 #warn>a:link {
 	color: inherit;
 }
 #warn>a:visited {
 	color: inherit;
+}
 
+#warn>a:hover {
+	color: #16A085;
 }

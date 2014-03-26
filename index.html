@@ -682,9 +682,6 @@
 				Do task
 			*/
 
-			
-
-
 			//navigator, which acts as a controller
 			$("nav>ul>li>a").click(function(event){
 				event.preventDefault();
@@ -714,6 +711,20 @@
 				var data = $(this).data();
 				redirect(data.mode);
 			});
+
+			$('#tag-right button').click(function(event) {
+				event.preventDefault();
+				var data = $(this).data();
+				redirect(data.mode);
+			});
+
+			$('#warn a').click(function(event) {
+				event.preventDefault();
+				var data = $(this).data();
+				redirect(data.mode);
+			});
+
+
 		});
 		</script>
 
@@ -814,10 +825,10 @@
 
 			<!-- Start of the dashboard -->
 			<div class="view-task" id="task-dashboard" style="display:none">
-				<div id='tag'>What's ongoing <div id="tag-right"><button><img alt="add" src="img/plus.png" height="45" width="45"></button></div> </div>
+				<div id='tag'>What's ongoing <div id="tag-right"><button data-mode='NewTask'><img alt="add" src="img/plus.png" height="45" width="45"></button></div> </div>
 				<!-- Display current task(if any) -->
 				<div id='warn' style="display:none">You don't have any task to do!
-				<a href="" id="dash-create">Create one now</a>
+				<a href="" data-mode="NewTask" id="dash-create">Create one now</a>
 				</div>
 				<!-- Display current task(if any) -->
 				<div id="dashboard-task">
