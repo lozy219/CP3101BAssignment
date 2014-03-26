@@ -148,6 +148,11 @@
 					showElement('.task-create');
 					break;
 				case 'Task':
+					showElement('.full-page');
+					showElement('.sidebar');
+					showElement('#task-dashboard');
+					user_retrieve('dashboard');
+					task_retrieve();
 					break;
 				case 'Logout':
 					logout();
@@ -405,6 +410,9 @@
 				//show empty task message
 				showElement('#warn');
 			} else {
+				if (locate == 'Task') {
+					content+='<div id="button-group"><form id="task-option" action="" method="post" ><input type="hidden" name="mode" value="create"><input type="submit" name="submit" class="button button-input" value="New Task"></form><form id="task-show" action="" method="post" ><input type="hidden" name="mode" value="show"><input type="submit" name="submit" class="button button-input" value="Show Ongoing"><input type="submit" name="submit" class="button button-input" value="Show Past"><input type="submit" name="submit" class="button button-input" value="Show All"></form></div>';
+				}
 				for (var i=0;i<tasks.length;i++) {
 					var task = tasks[i];
 					console.log(task);
