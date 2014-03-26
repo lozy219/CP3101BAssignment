@@ -97,6 +97,7 @@
 					break;
 				case 'Account':
 					hideElement('#view_account');
+					$('#account-form .form_alert').hide();
 					$('#account-form input[type=password]').val('');
 					$('#account-form input[name=email]').css("border-color","#DADADA");
 					$('#account-form input[type=password]').css("border-color","#DADADA");
@@ -142,6 +143,8 @@
 					task_retrieve('ongoing');
 					break;
 				case 'Account':
+					$('#n_password').prop('disabled', true);
+        			$('#r_password').prop('disabled', true);
 					user_retrieve('account');
 					break;
 				case 'NewTask':
