@@ -268,8 +268,6 @@ nav>ul>li>a.active {
 	padding: 10px;
 	margin: 0 auto 10px;
 	width: 90%;
-	color: green;
-	background: #2ECC71;
 	border-radius: 4px;
 	line-height: 30px;
 }
