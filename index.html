@@ -32,16 +32,19 @@
 		}
 
 		function showPageAlert(content, mode) {
-			$('#page-alert').show();
-			if (mode=='success') {
-				$('#page-alert').css("background-color","#dff0d8");
-				$('#page-alert').css("color","#3c763d");
-			} else {
-				$('#page-alert').css("background-color","#f2dede");
-				$('#page-alert').css("color","#E74C3C");
+			if ($('#page-alert').css("display")=='none') {
+				$('#page-alert').fadeIn('fast');
+				if (mode=='success') {
+					$('#page-alert').css("background-color","#dff0d8");
+					$('#page-alert').css("color","#3c763d");
+				} else {
+					$('#page-alert').css("background-color","#f2dede");
+					$('#page-alert').css("color","#E74C3C");
+				}
+				$('#page-alert').html(content);
+				$("#page-alert" ).delay( 1200 ).fadeOut('fast');
 			}
-			$('#page-alert').html(content);
-			$( "#page-alert" ).delay( 1500 ).fadeOut(400);
+			
 		}
 
 		function verify_email(name) {
@@ -332,16 +335,21 @@
 			
 		}
 		function updateSidebar(level, exp) {
+			var old_level = parseInt($('#side-level').text().substring(6));
+			if (old_level!=level) {
+				showPageAlert('Level Up!','success');
+			}
 			$('#side-level').text("Level "+level);
-			$('#side-exp').text("Exp: "+exp);
+			$('#side-exp').text("Exp: "+exp +"/"+ level*20);
 		}
+
 		function updateTask(taskid, current, time) {
-			var status = $('#task-item[name='+taskid+'] > #task-do-form > #task-status');
-			var progressbar = $('#task-item[name='+taskid+'] > #progressbar > #progressbar-percentage');
-			var remaintime = $('#task-item[name='+taskid+'] > #remaining-time > #remain-time');
+			var status = $('[name=\"'+taskid+'\"] > #task-do-form > #task-status');
+			var progressbar = $('[name=\"'+taskid+'\"] > #progressbar > #progressbar-percentage');
+			var remaintime = $('[name=\"'+taskid+'\"] > #remaining-time > #remain-time');
 
 			if (time<=0) {
-				hideElement('#task-item[name=\"'+taskid+'\""]');
+				hideElement('[name=\"'+taskid+'\"]');
 			}
 
 			var progress = Math.floor(current);
@@ -366,11 +374,12 @@
 					// update the level, exp and progress bar in the sidebar.
 					updateSidebar(data.user.level, data.user.exp);
 					if (data.task.remainingslot<=0) {
-						hideElement('#task-item[name='+data.task.id+']');
+						hideElement('[name=\"'+data.task.id+'\"]');
+						redirect('Dashboard');
 					} else {
 						updateTask(data.task.id.toString(), (1 - data.task.remainingslot / data.task.totalslot) * 100, data.task.remainingslot * 30);
 					}
-					showPageAlert('Do successfully!','success');
+					// showPageAlert('Do successfully!','success');
 					//redirect('Dashboard');
 				} else {
 					// else, error happens
@@ -388,12 +397,14 @@
 		function startDashboard(user_data) {
 			$("#side-name").html(user_data.name);
 			$("#side-level").html("Level " + user_data.level);
-			$("#side-exp").html("Exp: " + user_data.exp);
+			$("#side-exp").html("Exp: " + user_data.exp +"/"+user_data.level*20);
 		}
 		
 		function display_task_dashboard(task_data) {
 			var content = '';
 			var tasks = task_data.tasks;
+			//count for ongoing task
+			var count =0;
 			if (tasks.length<=0) {
 				//show empty task message
 				showElement('#warn');
@@ -403,7 +414,7 @@
 					console.log(task);
 					var current = "<div id=\"task-item\" name=\""+task.id+"\"><div id=\"task-title\"><a href=\"\">";
 				    if (task.remainingslot>0) {
-
+				    	count++;
 				    	current+=task.title;
 				    	current+="</a></div><div id=\"task-do-form\"><span id=\"task-status\">";
 				    	var progress = Math.floor((1 - task.remainingslot/task.totalslot) * 100);
@@ -423,6 +434,11 @@
 
 						content+=current;
 				    }
+				}
+				if (count==0) {
+					showElement('#warn');
+				} else {
+					hideElement('#warn');
 				}
 			}
 			$('#dashboard-task').html(content);
