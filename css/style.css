@@ -699,7 +699,7 @@ nav>ul>li>a.active {
 	font-weight: normal;
 	color: white;
 	background-color: #1abc9c;
-	border-radius:6px;
+	border-radius:10px;
 	line-height:1.5;
 	padding:10px 19px;
 	font-size: 17px;
@@ -725,6 +725,7 @@ nav>ul>li>a.active {
 
 .button-input {
 	margin-top: 10px;
+	margin-left: 4px;
 	text-align:center;
 	width:20%;
 	font-family: "Lato";
