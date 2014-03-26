@@ -36,6 +36,6 @@
 		$_SESSION['valid_level'] = $user['level'];
 		$_SESSION['valid_exp'] = $user['exp'];
 	}
-
+	
 	echo json_encode($reply);
 ?>
