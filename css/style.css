@@ -666,13 +666,23 @@ nav>ul>li>a.active {
 	padding: 0.5em;
 	width: 100%;
 	background-color: #34495e; 
-	float: left; 
 }
 
 #tag-right {
 	float: right;
 }
 
+#tag-right button {
+	padding: 0.5em;
+	text-align: center;
+    cursor:pointer;
+    border: none;
+    border: 0; 
+    background: transparent;
+}
+#tag:after {
+	 clear: both;
+}
 #task-do-form {
 	height: 30px;
 	display: inline;
