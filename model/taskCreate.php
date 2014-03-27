@@ -14,7 +14,7 @@
 		$userid = $_SESSION['valid_id'];
 		$title = $data['title'];
 		$description = $data['description'];
-		$duration = $data['duration'];
+		$duration = (int) $data['duration'];
 		// //connect and query the database
 		$dbconn = db_connect();		
 

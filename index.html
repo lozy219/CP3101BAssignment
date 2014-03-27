@@ -357,11 +357,11 @@
 			var input = {};
 			input.title = $("#newtask_title").val();
 			input.description = $("#newtask_description").val();
-			input.duration = $("#newtask_duration").val();
+			input.duration = $("#duration-field").val();
 			//wrap the date to JSON string
 			var create_data = JSON.stringify(input);
 			//sending data to the model
-			
+			alert(create_data);
 			$.post("model/taskCreate.php", {create_task: create_data}, function(data) {
 				if (data['status'] == 'Success') {
 					console.log(data);
