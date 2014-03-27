@@ -415,6 +415,7 @@
 				showElement('#warn');
 			} else {
 				if (locate == 'Task') {
+					showElement('#button-group');
 					$('#button-group > button').css("background-color","");
 					switch(mode) {
 						case 'all' : 
@@ -879,7 +880,7 @@
 			<div class="view-task" id="task-dashboard" style="display:none">
 				<div id='tag'>What's ongoing <div id="tag-right"><button data-mode='NewTask'><img alt="add" src="img/plus.png" height="45" width="45"></button></div> </div>
 				<!-- Display button for the task mode -->
-				<div id="button-group">
+				<div id="button-group" style="display:none">
 					<button class="button button-input" id="task-new" onclick="redirect('NewTask');">New Task</button>
 					<button class="button button-input" id="task-ongoing" onclick="task_retrieve('ongoing');">Show Ongoing</button>
 					<button class="button button-input" id="task-finished" onclick="task_retrieve('finished');">Show Finished</button>
