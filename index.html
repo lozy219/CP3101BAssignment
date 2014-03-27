@@ -415,37 +415,19 @@
 				showElement('#warn');
 			} else {
 				if (locate == 'Task') {
-					var head ='<div id="button-group"><button class="button button-input" id="task-new" onclick="hideCurrent(locate);redirect(\'NewTask\');">New Task</button><button class="button button-input" id="task-ongoing" onclick="task_retrieve(\'ongoing\');">Show Ongoing</button><button class="button button-input" id="task-finished" onclick="task_retrieve(\'finished\');">Show Finished</button><button class="button button-input" id="task-all" onclick="task_retrieve(\'all\');">Show All</button></div>';
+					$('#button-group > button').css("background-color","");
 					switch(mode) {
 						case 'all' : 
-							task_show_all(tasks, head);
-							$('#task-all').css("background-color","rgb(33, 124, 153)");
-							$('#task-all').mouseover(function() {
-								$('#task-all').css("background-color","rgb(20, 96, 121)");
-							});
-							$('#task-all').mouseout(function() {
-								$('#task-all').css("background-color","rgb(33, 124, 153)");
-							});
+							task_show_all(tasks, content);
+							$('#task-all').css("background-color","#217c99");
 							break;
 						case 'ongoing' :
-							task_show_ongoing(tasks, head);
-							$('#task-ongoing').css("background-color","rgb(33, 124, 153)");
-							$('#task-ongoing').mouseover(function() {
-								$('#task-ongoing').css("background-color","rgb(20, 96, 121)");
-							});
-							$('#task-ongoing').mouseout(function() {
-								$('#task-ongoing').css("background-color","rgb(33, 124, 153)");
-							});
+							task_show_ongoing(tasks, content);
+							$('#task-ongoing').css("background-color","#217c99");
 							break;
 						case 'finished' :
-							task_show_finished(tasks, head);
-							$('#task-finished').css("background-color","rgb(33, 124, 153)");
-							$('#task-finished').mouseover(function() {
-								$('#task-finished').css("background-color","rgb(20, 96, 121)");
-							});
-							$('#task-finished').mouseout(function() {
-								$('#task-finished').css("background-color","rgb(33, 124, 153)");
-							});
+							task_show_finished(tasks, content);
+							$('#task-finished').css("background-color","#217c99");
 							break;
 					}
 					
@@ -896,6 +878,14 @@
 			<!-- Start of the dashboard -->
 			<div class="view-task" id="task-dashboard" style="display:none">
 				<div id='tag'>What's ongoing <div id="tag-right"><button data-mode='NewTask'><img alt="add" src="img/plus.png" height="45" width="45"></button></div> </div>
+				<!-- Display button for the task mode -->
+				<div id="button-group">
+					<button class="button button-input" id="task-new" onclick="redirect('NewTask');">New Task</button>
+					<button class="button button-input" id="task-ongoing" onclick="task_retrieve('ongoing');">Show Ongoing</button>
+					<button class="button button-input" id="task-finished" onclick="task_retrieve('finished');">Show Finished</button>
+					<button class="button button-input" id="task-all" onclick="task_retrieve('all');">Show All</button>
+				</div>
+
 				<!-- Display current task(if any) -->
 				<div id='warn' style="display:none">You don't have any task to do!
 				<a href="" data-mode="NewTask" id="dash-create">Create one now</a>

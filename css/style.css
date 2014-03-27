@@ -683,6 +683,7 @@ nav>ul>li>a.active {
 }
 
 #tag-right button {
+	outline: none;
 	padding: 0.5em;
 	text-align: center;
     cursor:pointer;
@@ -769,6 +770,19 @@ nav>ul>li>a.active {
 	margin: 2px auto;
 	text-align: center;
 }
+
+#button-group > button {
+	cursor: pointer;
+	outline: none;
+	background-color: #1abc9c;
+}
+
+#button-group > button:hover {
+	background-color:#217c99;
+}
+
+
+
 
 
 /*End of button*/
