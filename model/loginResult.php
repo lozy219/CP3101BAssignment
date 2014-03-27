@@ -20,6 +20,9 @@
 		$result = pg_prepare($dbconn, "", 'SELECT * FROM users WHERE name = $1');
 		$result = pg_execute($dbconn, "", array("$name"));
 
+		// HASH FUNCTION USED: sha1()
+		// SALT USED: 'DOITNOW'
+		
 		//check the database's return result
 		while ($row = pg_fetch_array($result)) {
 			if ($row['password'] == sha1($pwd)) {

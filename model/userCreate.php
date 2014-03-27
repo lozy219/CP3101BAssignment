@@ -11,6 +11,10 @@
         $reply['receive'] = true;
 		$data = json_decode($_REQUEST['regi'], true);
 		// get the user info
+
+		// HASH FUNCTION USED: sha1()
+		// SALT USED: 'DOITNOW'
+		
 		$name = $data['name'];
 		$pwd = sha1($data['password']);
 		$email = $data['email'];

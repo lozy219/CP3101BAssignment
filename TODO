@@ -1,0 +1,4 @@
+1. apply salted to the password.
+2. prevent xss injert for the task Create
+3. fix the config.inc to fit the marking schema.
+4. Edit a task, delete a task.

@@ -67,6 +67,36 @@
 	        return reName.test(username);
 		}
 
+		// change the content in the sidebar 
+		function updateSidebar(level, exp) {
+			var old_level = parseInt($('#side-level').text().substring(6));
+			if (old_level!=level) {
+				showPageAlert('Level Up!','success');
+			}
+			$('#side-level').text("Level "+level);
+			$('#side-exp').text("Exp: "+exp +"/"+ level*20);
+		}
+		// change the status of a particular task
+		function updateTask(taskid, current, time) {
+			var status = $('[name=\"'+taskid+'\"] > #task-do-form > #task-status');
+			var progressbar = $('[name=\"'+taskid+'\"] > #progressbar > #progressbar-percentage');
+			var remaintime = $('[name=\"'+taskid+'\"] > #remaining-time > #remain-time');
+
+			if (time<=0) {
+				hideElement('[name=\"'+taskid+'\"]');
+			}
+
+			var progress = Math.floor(current);
+	    	if(progress<10) {
+	    		status.html("0"+progress+"/100% ");
+	    	} else {
+	    		status.html(progress+"/100% ");
+	    	}
+
+	    	progressbar.css('width',current+'%');
+	    	remaintime.html(time);
+
+		}
 
 		//-------------------------------------------------------------------------  
 		// Controller
@@ -338,35 +368,6 @@
 				}
 			});
 			
-		}
-		function updateSidebar(level, exp) {
-			var old_level = parseInt($('#side-level').text().substring(6));
-			if (old_level!=level) {
-				showPageAlert('Level Up!','success');
-			}
-			$('#side-level').text("Level "+level);
-			$('#side-exp').text("Exp: "+exp +"/"+ level*20);
-		}
-
-		function updateTask(taskid, current, time) {
-			var status = $('[name=\"'+taskid+'\"] > #task-do-form > #task-status');
-			var progressbar = $('[name=\"'+taskid+'\"] > #progressbar > #progressbar-percentage');
-			var remaintime = $('[name=\"'+taskid+'\"] > #remaining-time > #remain-time');
-
-			if (time<=0) {
-				hideElement('[name=\"'+taskid+'\"]');
-			}
-
-			var progress = Math.floor(current);
-	    	if(progress<10) {
-	    		status.html("0"+progress+"/100% ");
-	    	} else {
-	    		status.html(progress+"/100% ");
-	    	}
-
-	    	progressbar.css('width',current+'%');
-	    	remaintime.html(time);
-
 		}
 		
 		function do_task(taskid) {
