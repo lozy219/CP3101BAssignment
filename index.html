@@ -957,11 +957,15 @@
 						<label for="name">Title</label>
 						<input id="newtask_title" type="text" name="title" placeholder="Your task title" required="required">
 						<br/>
-						<label for="description">Description</label>
+						<label for="description" style="height: 106px; vertical-align:top;"><br /><br />Description</label>
 						<textarea  id ="newtask_description" name="description" style="text-align:left" rows="5" placeholder="Your description for the task" required=""></textarea>
-						<br/>
+						<br/>	
 						<label for="name" id="label-name" size="10">Slot (30 min as a unit)</label>
-						<input id="newtask_duration" type="text" placeholder="Enter a number between 1 and 20" name="duration"/>
+						<span id="duration-table">
+							<button id="duration-button-minus"><img alt="minus" src="img/minus_duration.png" height="24" width="24"></button>
+							<input onKeyUp="this.value=this.value.replace(/\D/g,''); if(this.value > 50) this.value=50;" style="margin-left:0%" type="text" name="duration" placeholder="1~50"/>
+							<button id="duration-button-plus" onclick=""><img alt="add" src="img/plus_duration.png" height="24" width="24"></button>
+						</span>
 						<br />
 						<br />
 						<input id="task_create_submit" type="submit" class="button button-input" name="submit" value="Create">

@@ -396,22 +396,7 @@ nav>ul>li>a.active {
     font-size: 15px;
 }
 
-.task-create textarea{
-    border: 2px solid #DADADA;
-    border-radius: 6px;
-    color: black;
-    height: 30px;
-    margin-bottom: 15px;
-    margin-left: 5%;
-    margin-top: 2px;
-    outline: 0 none;
-    padding: 3px;
-    max-width: 70%;
-    min-width: 40%;
-    font-family: "Lato";
-    font-size: 15px;
-    height: 20%;
-}
+
 /*End of task page*/
 
 .full-page fieldset {
@@ -646,6 +631,63 @@ nav>ul>li>a.active {
     min-width: 40%;
     font-family: "Lato";
     font-size: 15px;
+}
+
+#newtask_form input[type="text"][name="duration"] {
+	width: 20%;
+	min-width: 30%;
+	text-align: center;
+}
+
+#newtask_duration {
+	background-color: #C1C1C1;
+}
+
+#duration-button-minus {
+	border: none;
+	background-color: transparent;
+	padding: 1px;
+	padding-right: 10px;
+	vertical-align: middle;
+}
+
+#duration-button-plus {
+	border: none;
+	background-color: transparent;
+	padding: 1px;
+	padding-left: 10px;
+	vertical-align: middle;
+}
+
+#duration-table {
+    color: black;
+    height: 30px;
+    margin-bottom: 15px;
+    margin-left: 5%;
+    margin-top: 2px;
+    outline: 0 none;
+    padding: 3px;
+    max-width: 70%;
+    min-width: 40%;
+    font-family: "Lato";
+    font-size: 15px;
+}
+
+.task-create textarea{
+    border: 2px solid #DADADA;
+    border-radius: 6px;
+    color: black;
+    height: 30px;
+    margin-bottom: 15px;
+    margin-left: 5%;
+    margin-top: 2px;
+    outline: 0 none;
+    padding: 3px;
+    max-width: 70%;
+    min-width: 40%;
+    font-family: "Lato";
+    font-size: 15px;
+    height: 20%;
 }
 
 
