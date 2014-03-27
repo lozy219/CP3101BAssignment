@@ -649,6 +649,8 @@ nav>ul>li>a.active {
 	padding: 1px;
 	padding-right: 10px;
 	vertical-align: middle;
+	cursor: pointer;
+	outline: none;
 }
 
 #duration-button-plus {
@@ -657,6 +659,8 @@ nav>ul>li>a.active {
 	padding: 1px;
 	padding-left: 10px;
 	vertical-align: middle;
+	cursor: pointer;
+	outline: none;
 }
 
 #duration-table {

@@ -119,6 +119,11 @@
 					hideElement('.login');
 					break;
 				case 'SignUp':
+					$('#register_form input').css("border-color","#DADADA");
+					$('#register_form input[type=password]').val('');
+					$('#register_form input[type=text]').val('');
+					$('#register_form input[type=email]').val('');
+					$('#register_form .form_alert').hide();
 					hideElement('.full-page');
 					hideElement('.register');
 					break;
